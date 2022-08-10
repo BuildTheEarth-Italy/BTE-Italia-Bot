@@ -5,3 +5,6 @@ emoji
 requests
 asyncio
 PyNaCl
+aiopentdb
+games
+random
