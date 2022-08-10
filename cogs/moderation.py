@@ -278,7 +278,20 @@ class Moderation(commands.Cog):
                     ':x: La pagina che hai specificato non esiste'
                 ),
                 delete_after=10
-            )            
+            )                
+            
+    @commands.command(name='setnickname', description='Cambia il nickname di un utente.')
+    @commands.bot_has_permissions(manage_nicknames = True)
+    async def setnickname(self, ctx, member: discord.Member=None, *name):
+        if member == None:
+            member = ctx.author
+        nickname = ' '.join(name)
+        await member.edit(nick=nickname)
+        if nickname:
+            msg = f'Impostato il nickname di `{member}` a: **{nickname}**'
+        else:
+            msg = f'Resettato il nickname di `{member}` a: **{member.name}**'
+        await ctx.send(msg)            
             
 def setup(bot):
     bot.add_cog(Moderation(bot))
