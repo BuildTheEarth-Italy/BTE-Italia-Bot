@@ -291,7 +291,16 @@ class Moderation(commands.Cog):
             msg = f'Impostato il nickname di `{member}` a: **{nickname}**'
         else:
             msg = f'Resettato il nickname di `{member}` a: **{member.name}**'
-        await ctx.send(msg)            
+        await ctx.send(msg)
+            
+    @commands.command(aliases=["av", "pfp"])
+    async def avatar(self, ctx, *, member: discord.Member = None):
+        if not member:member=ctx.message.author
+
+        message = discord.Embed(title=str(member), color=discord.Colour.orange())
+        message.set_image(url=member.avatar_url)
+
+        await ctx.send(embed=message)            
             
 def setup(bot):
     bot.add_cog(Moderation(bot))
