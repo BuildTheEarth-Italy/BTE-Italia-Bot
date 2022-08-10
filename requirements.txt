@@ -1,0 +1,7 @@
+Pillow
+discord.py
+pymongo
+emoji
+requests
+asyncio
+PyNaCl
