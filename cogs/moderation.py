@@ -174,6 +174,7 @@ class Moderation(commands.Cog):
     async def userinfo(self, ctx, member: discord.Member = None):
         if member == None:
             member = ctx.author
+        roles = [role for role in member.roles]            
         embed = discord.Embed(
             color=discord.Color.orange(),
             timestamp=ctx.message.created_at
@@ -202,11 +203,7 @@ class Moderation(commands.Cog):
         role_str = ''
         for role in member.roles:
             role_str += str(role)+' | '
-        embed.add_field(
-            name=':busts_in_silhouette: Ruoli',
-            value=role_str,
-            inline=False
-        )
+        embed.add_field(name=":busts_in_silhouette: Ruoli:", value="".join([role.mention for role in roles[1:]]))
         embed.set_footer(
             text=f'ID: {member.id}'
         )
