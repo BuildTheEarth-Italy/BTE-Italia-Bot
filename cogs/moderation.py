@@ -298,6 +298,10 @@ class Moderation(commands.Cog):
         message.set_image(url=member.avatar_url)
 
         await ctx.send(embed=message)            
+               
+    @commands.command(aliases=["links", "link", "social"])
+    async def socials(self, ctx):
+        await ctx.channel.send("<:TikTok:1008819190574104646> **TikTok**: <https://tiktok.com/@bteitalia>\n<:Youtube:814457415599652904> **YouTube**: <https://www.youtube.com/c/BuildTheEarthItaly/>\n<:Instagram:814457416296431656> **Instagram**: <https://instagram.com/bteitalia/>\n<:Discord:847918459647164466> **Discord**: <https://discord.gg/fuEg2aQTy9>\n<:bte_italy:991738968725000433> **Sito Web**: <https://bteitalia.tk/>\n<:minecraft:1008821296131477535> **Server Minecraft**: mc.bteitalia.tk")            
             
 def setup(bot):
     bot.add_cog(Moderation(bot))
