@@ -1,5 +1,9 @@
 import discord, random
 from discord.ext import commands
+import requests
+import json
+import shutil
+from io import BytesIO
 
 class Fun(commands.Cog):
 
@@ -104,6 +108,124 @@ class Fun(commands.Cog):
         message.add_field(name=":question: Domanda:", value=question, inline=False)
         message.add_field(name=":pencil: Risposta:", value=random.choice(responses), inline=False)
         await ctx.send(embed=message)        
+        
+    @commands.command()
+    async def stupid(ctx, member : discord.Member = None):
+        percentage = (random.randint(0, 100))
+
+        if member == None:
+
+            if ctx.message.author.id == (477570902075113472):
+                message = await ctx.channel.send("Calcolando...")
+                await asyncio.sleep(3)
+                await message.edit(content=f"Sei 100% stupido!")
+
+            else:
+                message = await ctx.channel.send("Calcolando...")
+                await asyncio.sleep(3)
+                await message.edit(content=f"Sei {percentage}% stupido!")
+
+        if member == member:
+
+            if member.id == (477570902075113472):
+                message = await ctx.channel.send("Calcolando...")
+                await asyncio.sleep(3)
+                await message.edit(content=f"{member.mention} è 100% stupido!")
+
+            elif member == bot.user:
+                message = await ctx.channel.send("Calcolando...")
+                await asyncio.sleep(3)
+                await message.edit(content=f"Sono troppo intelligente, anullando calcolo...")
+
+            else:
+                message = await ctx.channel.send("Calcolando...")
+                await asyncio.sleep(3)
+                await message.edit(content=f"{member.mention} è {percentage}% stupido!")
+                
+                
+    @commands.command(name='meteo', description='Fornisce il meteo della città richiesta.')
+    async def meteo(self,ctx,*,city):
+        try:
+            base_url = "http://api.weatherapi.com/v1/forecast.json?key=713f2531413e4f02b95200222221407"
+            city = city.replace(" ", "_")
+            complete_url = base_url + "&q=" + city
+            response = requests.get(complete_url)
+            result = response.json()
+            city = result['location']['name']
+            country = result['location']['country']
+            region = result['location']['region']
+            time = result['location']['localtime']
+            wcond = result['current']['condition']['text']
+            fahrenheit = result['current']['temp_c']
+            icon = result['current']['condition']['icon']
+            max = result['forecast']['forecastday'][0]['day']['maxtemp_c']
+            min = result['forecast']['forecastday'][0]['day']['mintemp_c']
+            rise = result['forecast']['forecastday'][0]['astro']['sunrise']
+            set = result['forecast']['forecastday'][0]['astro']['sunset']
+            humid = result['forecast']['forecastday'][0]['day']['avghumidity']
+            icon = result['forecast']['forecastday'][0]['day']['condition']['icon']
+            icon = "http:" + icon
+            embed = discord.Embed(title=f":white_sun_rain_cloud: Meteo: {city}, {region}", description=f"**Paese** {country}", color=0x19B9B9)
+            embed.add_field(name="Temperatura Attuale C°", value=f"{fahrenheit}", inline=True)
+            embed.add_field(name="\u200B", value="\u200B")  # newline
+            embed.add_field(name="Condizione", value=f"{wcond}", inline=True)
+            embed.add_field(name="Umidità",value=f'{humid}%',inline=True)
+            embed.add_field(name="\u200B", value="\u200B")  # newline
+            embed.add_field(name="Temperatura Min. C°", value=f"{min}", inline=True)
+            embed.add_field(name="Temperatura Max. C°", value=f"{max}", inline=True)
+            embed.add_field(name="\u200B", value="\u200B")  # newline
+            embed.add_field(name="Alba", value=f"{rise}", inline=False)
+            embed.add_field(name="Tramonto", value=f"{set}", inline=False)
+
+            embed.set_thumbnail(url=icon)
+            embed.set_footer(text='Orario: 'f"{time}")
+
+            await ctx.send(embed=embed)
+            
+        except:
+            embed = discord.Embed(title="Nessuna risposta", color=0x19B9B9)
+            embed.add_field(name="Errore", value="Perfavore metti il nome di una città", inline=True)
+            await ctx.send(embed=embed)       
+            
+    @commands.command(name='skin', description='Mostra la skin dell utente richiesto.')
+    async def skin(self,ctx,user):
+        url = "https://api.mojang.com/users/profiles/minecraft/" + user
+        response = requests.get(url)
+        result = json.loads(response.text)
+        uuid = result['id']
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0'
+        }
+        uuid = uuid.strip()
+        url = "https://crafatar.com/renders/body/" + uuid + "?size=512&default=MHF_Steve&overlay=true.png"
+
+        response = requests.get(url,headers=headers,stream=True)
+        response.raw.decode_content = True
+        if response.status_code == 200:
+            with open("mc.png", 'wb') as f:
+                shutil.copyfileobj(BytesIO(response.content), f)
+        else:
+            print('Image Couldn\'t be retrieved :(')
+        with open('mc.png', "rb") as fh:
+            f = discord.File(fh, filename='mc.png')
+        await ctx.send(file=f)
+            
+    @skin.error
+    async def handler(self, ctx, error):
+        if isinstance(error, commands.BadArgument) or isinstance(error, commands.MissingRequiredArgument):
+            embed=discord.Embed(description=':x: Perfavore fornisci un nome utente valido.', color=discord.Color.red())
+            await ctx.channel.send(embed=embed)
+        else:
+            print(error)
+            
+    @meteo.error
+    async def handler(self, ctx, error):
+        if isinstance(error, commands.BadArgument) or isinstance(error, commands.MissingRequiredArgument):
+            embed=discord.Embed(description=':x: Perfavore fornisci una città valida.', color=discord.Color.red())
+            await ctx.channel.send(embed=embed)
+        else:
+            print(error)              
 
 def setup(client):
     client.add_cog(Fun(client))
