@@ -232,5 +232,38 @@ class Fun(commands.Cog):
    
         await ctx.send(f':signal_strength: **Ping Attuale**: {round(self.client.latency * 1000)} ms')                    
 
+    @commands.command(help = 'gives kanye quote')
+    async def kanyequote(self, ctx):
+        kanyeIMGS = [
+          "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU0OTkwNDUxOTQ5MDUzNDQ3/kanye-west-attends-the-christian-dior-show-as-part-of-the-paris-fashion-week-womenswear-fall-winter-2015-2016-on-march-6-2015-in-paris-france-photo-by-dominique-charriau-wireimage-square.jpg",
+          "https://storage.googleapis.com/afs-prod/media/1f764b198a42470189b99b4084be6cf0/800.jpeg",
+          "https://www.gannett-cdn.com/presto/2019/03/07/USAT/71d24511-e504-40e1-95eb-180f883eeb81-LL_MW_KanyeWest_010319.JPG?width=600&height=900&fit=crop&format=pjpg&auto=webp",
+          "https://pyxis.nymag.com/v1/imgs/014/a62/bc3a72ed5c47e8c0dd5bc52028c5df5005-kanye-west.2x.rsquare.w330.jpg",
+          "https://www.aljazeera.com/wp-content/uploads/2020/09/Ye-1.jpg?resize=770%2C513",
+          "https://images.businessoffashion.com/profiles/asset/1797/43897e2e4a6d155d72dd9df352017b546ef9e229.jpeg?auto=format%2Ccompress&fit=crop&h=360&w=660",
+          "https://i.insider.com/5f624c55323fc4001e0d6a47?width=2000&format=jpeg&auto=webp",
+          "https://www.wmagazine.com/wp-content/uploads/2019/10/25/5db30d540e538e000830c68a_GettyImages-1183294345.jpg?w=1352px",
+          "https://i.guim.co.uk/img/media/07ad3146c3879e9d3da5e81aa32edf7160b93888/0_195_2326_1396/master/2326.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=8bdf6ca2f739479415c3a3b6d8fe890a",
+      ]
+        pick_img = random.choice(kanyeIMGS)
+
+        response = requests.get('https://api.kanye.rest')
+        data = response.json()
+
+        embed = discord.Embed(
+            title="From the Words of Kanye West:",
+            description=f'"{data["quote"]}"',
+            color=0,
+      )
+
+        embed.set_footer(
+            text=f"Richiesto da {ctx.author}", icon_url=ctx.author.avatar_url
+      )
+        embed.set_thumbnail(url=pick_img)
+
+        await ctx.message.reply(embed=embed)
+    
+    
+    
 def setup(client):
     client.add_cog(Fun(client))
