@@ -9,6 +9,7 @@ import datetime
 from datetime import timedelta
 from PIL import Image
 import qrcode
+import wikipedia
 
 class Fun(commands.Cog):
 
@@ -290,6 +291,61 @@ class Fun(commands.Cog):
             await ctx.channel.send(embed=embed)
         else:
             print(error)         
+    
+    @commands.command(aliases=['wikipedia'])
+    async def wiki(self, ctx, *, query):
+        embed = discord.Embed(title="Wikipedia", description="Ricercando {}".format(query), color=0x00ff00)
+        page = wikipedia.summary(query, sentences=500)
+        url = wikipedia.page(query).url
+        embed.description = page
+        embed.add_field(name="Link", value=url ,inline=False)
+        await ctx.send(embed=embed)
+       
+    @commands.command()
+    async def wikisearch(self, ctx, *, query):
+        await ctx.send(wikipedia.search(query))
+
+    @commands.command()
+    async def covid(self, ctx,*, country):
+        x = country.replace(" ", "%20")
+        try:
+            url = f"https://coronavirus-19-api.herokuapp.com/countries/{x}"
+            stats = requests.get(url)
+            json_stats = stats.json()
+            country = json_stats["country"]
+            totalCases = json_stats["cases"]
+            todayCases = json_stats["todayCases"]
+            totalDeaths = json_stats["deaths"]
+            todayDeaths = json_stats["todayDeaths"]
+            recovered = json_stats["recovered"]
+            active = json_stats["active"]
+            critical = json_stats["critical"]
+            casesPerOneMil = json_stats["casesPerOneMillion"]
+            deathsPerOneMil = json_stats["deathsPerOneMillion"]
+            totalTests = json_stats["totalTests"]
+            testsPerOneMil = json_stats["testsPerOneMillion"]
+
+            e = discord.Embed(
+                title=f"Statistiche Covid-19 su {country}",
+                description="Non si tratta di informazioni in tempo reale. Pertanto potrebbero non essere così precise, ma sono informazioni approssimative.",
+                color=discord.Colour.red()
+            )
+            e.add_field(name="Totale Casi", value=totalCases, inline=True)
+            e.add_field(name="Casi Di Oggi", value=todayCases, inline=True)
+            e.add_field(name="Totale Morti", value=totalDeaths, inline=True)
+            e.add_field(name="Morti Di Oggi", value=todayDeaths, inline=True)
+            e.add_field(name="Recoverati", value=recovered, inline=True)
+            e.add_field(name="Attivi", value=active, inline=True)
+            e.add_field(name="Critici", value=critical, inline=True)
+            e.add_field(name="Casi Su Un Millione", value=casesPerOneMil, inline=True)
+            e.add_field(name="Morti Su Un Millione", value=deathsPerOneMil, inline=True)
+            e.add_field(name="Tamponi Su Un Millione", value=testsPerOneMil, inline=True)
+            e.add_field(name="Totale Tamponi", value=totalTests, inline=True)
+            e.set_thumbnail(url="https://www.osce.org/files/imagecache/10_large_gallery/f/images/hires/8/a/448717.jpg")
+
+            await ctx.send(embed=e)
+        except:
+            await ctx.send(f"Nome del paese non valido o errore API! Riprovare più tardi.")    
     
 def setup(client):
     client.add_cog(Fun(client))
