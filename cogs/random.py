@@ -4,6 +4,9 @@ import requests
 import json
 import shutil
 from io import BytesIO
+import time
+import datetime
+from datetime import timedelta
 from PIL import Image
 import qrcode
 
@@ -279,6 +282,14 @@ class Fun(commands.Cog):
                             back_color="white").convert('RGB')
         img.save('qrcode.png')
         await ctx.message.reply(file=discord.File('qrcode.png'))    
+        
+    @qrcode.error
+    async def handler(self, ctx, error):
+        if isinstance(error, commands.BadArgument) or isinstance(error, commands.MissingRequiredArgument):
+            embed=discord.Embed(description=':x: Perfavore fornisci contenuto da mettere nel codice QR.', color=discord.Color.red())
+            await ctx.channel.send(embed=embed)
+        else:
+            print(error)         
     
 def setup(client):
     client.add_cog(Fun(client))
