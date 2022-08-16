@@ -4,6 +4,8 @@ import requests
 import json
 import shutil
 from io import BytesIO
+from PIL import Image
+import qrcode
 
 class Fun(commands.Cog):
 
@@ -261,9 +263,22 @@ class Fun(commands.Cog):
       )
         embed.set_thumbnail(url=pick_img)
 
-        await ctx.message.reply(embed=embed)
-    
-    
+        await ctx.message.reply(embed=embed)   
+
+    @commands.command(aliases=['qr'], help = "Genera un codice QR")
+    async def qrcode(self, ctx, *, url):
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_H,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(str(url))
+        qr.make(fit=True)
+        img = qr.make_image(fill_color="black",
+                            back_color="white").convert('RGB')
+        img.save('qrcode.png')
+        await ctx.message.reply(file=discord.File('qrcode.png'))    
     
 def setup(client):
     client.add_cog(Fun(client))
