@@ -226,6 +226,11 @@ class Fun(commands.Cog):
             await ctx.channel.send(embed=embed)
         else:
             print(error)              
+            
+    @commands.command(help='check bots ping')
+    async def ping(self, ctx):
+   
+        await ctx.send(f':signal_strength: **Ping Attuale**: {round(self.client.latency * 1000)} ms')                    
 
 def setup(client):
     client.add_cog(Fun(client))
