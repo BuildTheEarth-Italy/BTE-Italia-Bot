@@ -29,15 +29,7 @@ for filename in os.listdir('./cogs'):
 
     else:
         logging.error(f"Unable to load {filename}.")
-        
-@bot.listen('on_message')
-async def antiserverads(message):
-    if message.author.id == (833995282773049344):
-        return
-
-    elif "discord.gg" in message.content.lower():
-        await message.delete()
-        await message.channel.send(":x: **Non publicizzare il tuo server!**")        
+                
 
 bot.loop.create_task(run_once_when_ready())
 bot.run(os.environ.get('TOKEN'))
