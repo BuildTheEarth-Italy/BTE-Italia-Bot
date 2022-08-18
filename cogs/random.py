@@ -222,7 +222,7 @@ class Fun(commands.Cog):
             
         except:
             embed = discord.Embed(title="Nessuna risposta", color=0x19B9B9)
-            embed.add_field(name="Errore", value="Perfavore metti il nome di una città", inline=True)
+            embed.add_field(name="Errore", value="Per favore metti il nome di una città", inline=True)
             await ctx.send(embed=embed)       
             
     @commands.command(
@@ -258,7 +258,7 @@ class Fun(commands.Cog):
     @skin.error
     async def handler(self, ctx, error):
         if isinstance(error, commands.BadArgument) or isinstance(error, commands.MissingRequiredArgument):
-            embed=discord.Embed(description=':x: Perfavore fornisci un nome utente valido.', color=discord.Color.red())
+            embed=discord.Embed(description=':x: Per favore fornisci un nome utente valido.', color=discord.Color.red())
             await ctx.channel.send(embed=embed)
         else:
             print(error)
@@ -266,7 +266,7 @@ class Fun(commands.Cog):
     @meteo.error
     async def handler(self, ctx, error):
         if isinstance(error, commands.BadArgument) or isinstance(error, commands.MissingRequiredArgument):
-            embed=discord.Embed(description=':x: Perfavore fornisci una città valida.', color=discord.Color.red())
+            embed=discord.Embed(description=':x: Per favore fornisci una città valida.', color=discord.Color.red())
             await ctx.channel.send(embed=embed)
         else:
             print(error)              
@@ -343,7 +343,7 @@ class Fun(commands.Cog):
     @qrcode.error
     async def handler(self, ctx, error):
         if isinstance(error, commands.BadArgument) or isinstance(error, commands.MissingRequiredArgument):
-            embed=discord.Embed(description=':x: Perfavore fornisci contenuto da mettere nel codice QR.', color=discord.Color.red())
+            embed=discord.Embed(description=':x: Per favore fornisci contenuto da mettere nel codice QR.', color=discord.Color.red())
             await ctx.channel.send(embed=embed)
         else:
             print(error)         
