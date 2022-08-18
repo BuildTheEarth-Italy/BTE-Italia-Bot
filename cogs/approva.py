@@ -33,13 +33,15 @@ class Approva(commands.Cog):
         technical_role = ctx.guild.get_role(696409124102996068)
 
         if ctx.channel != approva_channel:
-            ctx.message.delete()
+            embed = Embed(
+                description='Usa il seguente comando nel canale <#891675282992431154>!', color=Color.red())           
+            await ctx.send(embed=embed)          
             return
 
         if member == None:
             embed = Embed(
                 description='Devi indicare un Utente!', color=Color.red())
-            ctx.send(embed=embed)
+            await ctx.send(embed=embed)
             return
 
         try:
