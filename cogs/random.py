@@ -109,26 +109,26 @@ class Fun(commands.Cog):
         aliases=["8ball", "magicball", "eight ball", "8 ball", "magic ball"]
     )
     async def eightball(self, ctx, *, question):
-        responses = ['É certo',
-                    'Senza dubbi',
-                    'Puoi fare affidamento su di esso',
-                    'Sì, sicuramente',
-                    'È decisamente così',
-                    'Per come la vedo io, sì',
-                    'Più probabilmente',
-                    'Sì',
-                    'Prospettiva buona',
-                    'I segni indicano sì',
-                    'Rispondi confusa riprova',
-                    'Meglio non dirtelo ora',
-                    "Chiedi un'altra volta più tardi",
-                    'Non posso prevedere ora',
-                    'Concentrati e chiedi ancora',
-                    'Non ci contare',
-                    'La prospettiva non è così buona',
-                    'Le mie fonti dicono di no',
-                    'Molto dubbioso',
-                    'No']
+        responses = ["Ovvio. Che cosa ti aspettavi?",
+                    'Non c’è alcun dubbio su tale affermazione.',
+                    'Puoi scommetterci.',
+                    'Direi proprio di sì.',
+                    'Assolutamente sì.',
+                    'A mio parere, sì.',
+                    'Molto probabilmente.',
+                    'Affermativo.',
+                    'Buone probabilità.',
+                    'L’oroscopo di Hannibal mi dice di sì.',
+                    'Domanda confusa, riprova.',
+                    'Te lo dirò quando sarai più grande.',
+                    "Riprova più tardi.",
+                    'No puedo.',
+                    'Concentrati e riprova.',
+                    'Non contarci.',
+                    'Le probabilità non sono buone.',
+                    'Il Lato Oscuro della Forza prevale.',
+                    'Credo proprio di no.',
+                    'Ma assolutamente no.']
 
         message = discord.Embed(title=":8ball: 8 Ball", colour=discord.Colour.orange())
         message.add_field(name=":question: Domanda:", value=question, inline=False)
