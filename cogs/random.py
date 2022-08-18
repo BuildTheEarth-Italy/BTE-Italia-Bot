@@ -19,7 +19,13 @@ class Fun(commands.Cog):
         self.client = client
                
         
-    @commands.command()
+    @commands.command(
+        name='fact',
+        description='Will send a random fact.',
+        usage='£fact',
+        brief='Gives random fact',
+        aliases=["fatto", "curiosità", "curiosita"]
+    )
     async def fact(self, ctx):
         start = "Curiosità: "
         facts = ["Sbattere la testa contro un muro per un'ora brucia 150 calorie.",
@@ -54,7 +60,13 @@ class Fun(commands.Cog):
         message.add_field(name=":face_with_monocle: Curiosità:", value=random.choice(facts), inline=True)
         await ctx.send(embed=message)        
         
-    @commands.command()
+    @commands.command(
+        name='fact_en',
+        description='Will send a random fact.',
+        usage='£fact_en',
+        brief='Gives random fact',
+        aliases=["curiosity"]
+    )
     async def fact_en(self, ctx):
         start = "Curiosity: "
         facts = ["Banging your head against a wall for one hour burns 150 calories.",
@@ -89,7 +101,13 @@ class Fun(commands.Cog):
         message.add_field(name=":face_with_monocle: Curiosity:", value=random.choice(facts), inline=True)
         await ctx.send(embed=message)        
         
-    @commands.command(aliases=["8ball", "magicball", "enlightenme"])
+    @commands.command(
+        name='eightball',
+        description='Will give a random response to your provided question.',
+        usage='£8ball (Question)',
+        brief='Gives random response',
+        aliases=["8ball", "magicball", "eight ball", "8 ball", "magic ball"]
+    )
     async def eightball(self, ctx, *, question):
         responses = ['É certo',
                     'Senza dubbi',
@@ -117,7 +135,13 @@ class Fun(commands.Cog):
         message.add_field(name=":pencil: Risposta:", value=random.choice(responses), inline=False)
         await ctx.send(embed=message)        
         
-    @commands.command()
+    @commands.command(
+        name='stupid',
+        description='Measures how stupid someone is.',
+        usage='£stupid (User)',
+        brief='Measures how stupid a user is',
+        aliases=["stupido"]
+    )
     async def stupid(ctx, member : discord.Member = None):
         percentage = (random.randint(0, 100))
 
@@ -151,7 +175,13 @@ class Fun(commands.Cog):
                 await message.edit(content=f"{member.mention} è {percentage}% stupido!")
                 
                 
-    @commands.command(name='meteo', description='Fornisce il meteo della città richiesta.')
+    @commands.command(
+        name='meteo',
+        description='Will send weather information of provided city.',
+        usage='£meteo (City)',
+        brief='Weather information',
+        aliases=["weather"]
+    )
     async def meteo(self,ctx,*,city):
         try:
             base_url = "http://api.weatherapi.com/v1/forecast.json?key=713f2531413e4f02b95200222221407"
@@ -195,7 +225,13 @@ class Fun(commands.Cog):
             embed.add_field(name="Errore", value="Perfavore metti il nome di una città", inline=True)
             await ctx.send(embed=embed)       
             
-    @commands.command(name='skin', description='Mostra la skin dell utente richiesto.')
+    @commands.command(
+        name='skin',
+        description='Will send provided users skin.',
+        usage='£skin (User)',
+        brief='Gather users skin',
+        aliases=["pelle"]
+    )
     async def skin(self,ctx,user):
         url = "https://api.mojang.com/users/profiles/minecraft/" + user
         response = requests.get(url)
@@ -235,12 +271,24 @@ class Fun(commands.Cog):
         else:
             print(error)              
             
-    @commands.command(help='check bots ping')
+    @commands.command(
+        name='ping',
+        description='Will send bots ping.',
+        usage='£ping',
+        brief='Bots ping',
+        aliases=["latency"]
+    )
     async def ping(self, ctx):
    
         await ctx.send(f':signal_strength: **Ping Attuale**: {round(self.client.latency * 1000)} ms')                    
 
-    @commands.command(help = 'gives kanye quote')
+    @commands.command(
+        name='kanyequote',
+        description='Will send a random Kanye West Quote.',
+        usage='£kanyequote',
+        brief='Gives random Kanye quote',
+        aliases=["kq", "kanye", "quote"]
+    )
     async def kanyequote(self, ctx):
         kanyeIMGS = [
           "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU0OTkwNDUxOTQ5MDUzNDQ3/kanye-west-attends-the-christian-dior-show-as-part-of-the-paris-fashion-week-womenswear-fall-winter-2015-2016-on-march-6-2015-in-paris-france-photo-by-dominique-charriau-wireimage-square.jpg",
@@ -271,7 +319,13 @@ class Fun(commands.Cog):
 
         await ctx.message.reply(embed=embed)   
 
-    @commands.command(aliases=['qr'], help = "Genera un codice QR")
+    @commands.command(
+        name='qrcode',
+        description='Will generate QR code with provided content.',
+        usage='£qrcode (Content)',
+        brief='Generates QR code',
+        aliases=["qr"]
+    )
     async def qrcode(self, ctx, *, url):
         qr = qrcode.QRCode(
             version=1,
@@ -294,7 +348,13 @@ class Fun(commands.Cog):
         else:
             print(error)         
     
-    @commands.command(aliases=['wikipedia'])
+    @commands.command(
+        name='wikipedia',
+        description='Will send wikipedia article of provided argument.',
+        usage='£wikipedia (Argument)',
+        brief='Wikipedia article of argument',
+        aliases=["wiki"]
+    )
     async def wiki(self, ctx, *, query):
         embed = discord.Embed(title="Wikipedia", description="Ricercando {}".format(query), color=0x00ff00)
         page = wikipedia.summary(query, sentences=500)
@@ -303,11 +363,23 @@ class Fun(commands.Cog):
         embed.add_field(name="Link", value=url ,inline=False)
         await ctx.send(embed=embed)
        
-    @commands.command()
+    @commands.command(
+        name='wikisearch',
+        description='Will research for arguments provided on wikipedia.',
+        usage='£wikisearch (Argument)',
+        brief='Does a wiki search',
+        aliases=["ricerca"]
+    )
     async def wikisearch(self, ctx, *, query):
         await ctx.send(wikipedia.search(query))
 
-    @commands.command()
+    @commands.command(
+        name='covid',
+        description='Will send a covid statistic of a provided country.',
+        usage='£covid (Country)',
+        brief='Covid information on a country',
+        aliases=["covid-19", "covid19", "coronavirus", "coronavirus19", "coronavirus-19", "corona", "virus"]
+    )
     async def covid(self, ctx,*, country):
         x = country.replace(" ", "%20")
         try:
