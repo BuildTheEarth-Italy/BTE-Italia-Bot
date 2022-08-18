@@ -41,7 +41,7 @@ class Fun(commands.Cog):
                  "Circa il 10-20% delle interruzioni di corrente negli Stati Uniti sono causate da scoiattoli."
                 ]
 
-        fact_file = open("/home/container/facts.txt", mode="r", encoding="utf8")
+        fact_file = open("/home/container/utils/facts.txt", mode="r", encoding="utf8")
         fact_file_facts = fact_file.read().split("\n")
         fact_file.close()
 
@@ -76,7 +76,7 @@ class Fun(commands.Cog):
                  "Approximately 10-20% of U.S. power outages are caused by squirrels."
                 ]
 
-        fact_file = open("/home/container/facts_en.txt", mode="r", encoding="utf8")
+        fact_file = open("/home/container/utils/facts_en.txt", mode="r", encoding="utf8")
         fact_file_facts = fact_file.read().split("\n")
         fact_file.close()
 
@@ -211,12 +211,12 @@ class Fun(commands.Cog):
         response = requests.get(url,headers=headers,stream=True)
         response.raw.decode_content = True
         if response.status_code == 200:
-            with open("mc.png", 'wb') as f:
+            with open("/home/container/utils/mc.png", 'wb') as f:
                 shutil.copyfileobj(BytesIO(response.content), f)
         else:
             print('Image Couldn\'t be retrieved :(')
-        with open('mc.png', "rb") as fh:
-            f = discord.File(fh, filename='mc.png')
+        with open('/home/container/utils/mc.png', "rb") as fh:
+            f = discord.File(fh, filename='/home/container/utils/mc.png')
         await ctx.send(file=f)
             
     @skin.error
@@ -283,8 +283,8 @@ class Fun(commands.Cog):
         qr.make(fit=True)
         img = qr.make_image(fill_color="black",
                             back_color="white").convert('RGB')
-        img.save('qrcode.png')
-        await ctx.message.reply(file=discord.File('qrcode.png'))    
+        img.save('/home/container/utils/qrcode.png')
+        await ctx.message.reply(file=discord.File('/home/container/utils/qrcode.png'))    
         
     @qrcode.error
     async def handler(self, ctx, error):
