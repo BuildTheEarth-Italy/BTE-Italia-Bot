@@ -1,13 +1,28 @@
 import discord
 import emoji
 from discord.ext import commands
+import subprocess
+from subprocess import STDOUT,PIPE
+from PIL import Image
+import requests
+from io import BytesIO
+import os 
+import asyncio
+import time
 
 
 class Utilities(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='post')
+        
+    @commands.command(
+        name='post',
+        description='Will send provided links to the #notifiche channel.',
+        usage='£post (Link/s)',
+        brief='Posts link in #notifiche',
+        aliases=["posta"]
+    )
     @commands.has_role(701817511284441170)
     async def post(self, ctx, *, links: str):
         link_list = links.split()
@@ -22,8 +37,14 @@ class Utilities(commands.Cog):
                               color=discord.Color.green())
         await ctx.send(embed=embed)
 
-    @commands.command(name='messaggio')
-    @commands.has_role(859467091639009350)
+    @commands.command(
+        name='messaggio',
+        description='Will make the bot message the content provided.',
+        usage='£messaggio (Channel) (Message)',
+        brief='Messages with bot',
+        aliases=["message", "msg"]
+    )
+    @commands.has_any_role(859467091639009350, 881627300142129222)
     async def messaggio(self, ctx, channel=None, *, message=None):
         converter = commands.TextChannelConverter()
 
@@ -68,8 +89,15 @@ class Utilities(commands.Cog):
                 description='Devi indicare un canale.', color=discord.Color.red())
             await ctx.send(embed=embed)
 
-    @commands.command(name='reazione')
-    @commands.has_role(859467091639009350)
+
+    @commands.command(
+        name='reazione',
+        description='Will react to specified messages with specified emojis.',
+        usage='£reazione (Message ID) (Reaction)',
+        brief='Reacts to messages',
+        aliases=["react"]
+    )
+    @commands.has_any_role(859467091639009350, 881627300142129222)
     async def reazione(self, ctx, message=None, reaction=None):
         if message != None:
 
@@ -133,7 +161,7 @@ class Utilities(commands.Cog):
             await ctx.send(embed=embed)
 
     @commands.command(name='oldApprova')
-    @commands.has_role(704338128692838533)
+    @commands.has_any_role(704338128692838533, 881627300142129222)
     async def approva(self, ctx, member=None):
         approva_channel = ctx.guild.get_channel(891675282992431154)
         if ctx.channel == approva_channel:
@@ -210,7 +238,85 @@ class Utilities(commands.Cog):
 
         else:
             pass
+		
+            
+            
+    @commands.command(
+        name='valuta',
+        description='Will rate a users building.',
+        usage='£valuta (Message ID) (Minecraft Username) (Points)',
+        brief='Rates a users building',
+        aliases=["rate"]
+    )
+    @commands.has_role(756854255662661643)
+    async def valuta(self, ctx, post_id = None, minecraft_name = None, points = None):
 
+        if post_id == None or minecraft_name == None or points == None:
+            embed = discord.Embed(description=f'Assicurati di star mandando i valori in questo formato:\n`{await self.bot.get_prefix(ctx.message)}valuta [POST_ID] [MINECRAFT_USERNAME] [POINTS]`', color=discord.Color.red())
+            await ctx.send(embed=embed)
+
+        else:
+            try:
+                points = int(points)
+
+            except:
+                
+                try:
+                    points = float(points)
+                
+                except:
+                    embed = discord.Embed(description=f'I Punti devono essere un valore numerico', color=discord.Color.red())
+                    await ctx.send(embed=embed)
+                    return
+            
+            emoji_converter = commands.PartialEmojiConverter()
+            verify_emoji = await emoji_converter.convert(ctx, '<:Verified:707278127449112616>')
+            
+            try:
+                channel = await self.bot.fetch_channel(704304928176209940)
+                message = await channel.fetch_message(int(post_id))
+
+            except:
+                embed = discord.Embed(description=f"Non posso reagire al messaggio.", color=discord.Color.red())
+                await ctx.send(embed=embed)
+                return
+
+            await message.add_reaction(verify_emoji)
+
+            italiano_role = ctx.guild.get_role(698617888675856514)
+            international_role = ctx.guild.get_role(698566163738656909)
+
+            if italiano_role in message.author.roles:
+                if int(points) != 1:
+                    notification_message = f"Hey *{minecraft_name}*, la tua costruzione è stata valutata **{points} Punti**\nPost di riferimento: https://discord.com/channels/686910132017430538/704304928176209940/{post_id}"
+                else:
+                    notification_message = f"Hey *{minecraft_name}*, la tua costruzione è stata valutata **{points} Punto**\nPost di riferimento: https://discord.com/channels/686910132017430538/704304928176209940/{post_id}"
+
+            elif international_role in message.author.roles:
+                if int(points) != 1:
+                    notification_message = f"Hey *{minecraft_name}*, your building has been evaluated **{points} Points**\nReference post: https://discord.com/channels/686910132017430538/704304928176209940/{post_id}"
+                else:
+                    notification_message = f"Hey *{minecraft_name}*, your building has been evaluated **{points} Point**\nReference post: https://discord.com/channels/686910132017430538/704304928176209940/{post_id}"
+
+            await message.author.send(notification_message)
+
+
+            try:
+                punti_valutazioni = ctx.guild.get_channel(779438755912220713)
+                await punti_valutazioni.send(f"{minecraft_name} = {points}")
+            
+            except:
+                embed = discord.Embed(description=f"Non posso mandare il messaggio a <#779438755912220713>", color=discord.Color.red())
+                await ctx.send(embed=embed)
+                return
+
+            confirmation_message = discord.Embed(description=f":white_check_mark: Costruzione valutata!", color=discord.Color.green())
+            await ctx.send(embed=confirmation_message)
+
+                        
+
+                
+    @valuta.error
     @post.error
     @messaggio.error
     @reazione.error
@@ -218,11 +324,11 @@ class Utilities(commands.Cog):
     async def handler(self, ctx, error):
         if isinstance(error, commands.MissingRole):
             embed = discord.Embed(
-                description="Non hai il permesso di usare questo comando.", color=discord.Color.red())
+                description=":x: Non hai il permesso di usare questo comando.", color=discord.Color.red())
             await ctx.send(embed=embed)
         else:
             print(error)
-
+            
 
 def setup(bot):
     bot.add_cog(Utilities(bot))
