@@ -18,7 +18,13 @@ class Approva(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='approva')
+    @commands.command(
+        name='approva',
+        description='Approves a user from rank Newbie to rank Starter.',
+        usage='£approva (User)',
+        brief='Approve a user',
+        aliases=["approve"]
+    )
     @commands.has_role(704338128692838533)
     async def approva(self, ctx, member=None):
         approva_channel = ctx.guild.get_channel(891675282992431154)
