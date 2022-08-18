@@ -15,7 +15,12 @@ class Moderation(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='clear', description='Elimina la quantità di messaggi forniti.')
+    @commands.command(
+        name='clear',
+        description='Deletes a specified amount of messages.',
+        usage='£clear (1-100)',
+        brief='Clears messages'
+    )
     @commands.has_permissions(manage_messages=True)
     async def clear(self, ctx, amount: int):
         limit=100
@@ -38,7 +43,12 @@ class Moderation(commands.Cog):
         else:
             print(error)
     
-    @commands.command(name='banlist', description='Fornirà la lista degli utenti bannati.')
+    @commands.command(
+        name='banlist',
+        description='Gives a list of banned users.',
+        usage='£banlist',
+        brief='Gives ban list'
+    )
     @commands.has_permissions(ban_members=True)
     async def banlist(self, ctx):
         page = 1
@@ -78,7 +88,7 @@ class Moderation(commands.Cog):
                 break
 
     @banlist.error
-    async def unban_error(self, ctx, error):
+    async def banlist_error(self, ctx, error):
         if isinstance(error, commands.MissingPermissions):
             embed = discord.Embed(
                 description='Non hai il permesso di eseguire questo comando',
@@ -86,7 +96,12 @@ class Moderation(commands.Cog):
             )
             await ctx.send(embed=embed)
 
-    @commands.command(name='ban', description='Bannerà dal server il utente specificato.')
+    @commands.command(
+        name='ban',
+        description='Bans a user from the server.',
+        usage='£ban (User) (Reason)',
+        brief='Bans a user'
+    )
     @commands.has_permissions(ban_members=True)
     async def ban(self, ctx, member: discord.Member = None, *, reason=None):
         if member == None:
@@ -112,7 +127,12 @@ class Moderation(commands.Cog):
             )
             await ctx.send(embed=embed)
             
-    @commands.command(name='unban', description='Sbannerà dal server il utente specificato.')
+    @commands.command(
+        name='unban',
+        description='Unbans a user from the server.',
+        usage='£unban (User)',
+        brief='Unbans a user'
+    )
     @commands.has_permissions(ban_members=True)
     async def unban(self, ctx, *, member=None):
         if member == None:
@@ -145,7 +165,12 @@ class Moderation(commands.Cog):
             )
             await ctx.send(embed=embed)
             
-    @commands.command(name='kick', description='Kickerà dal server il utente specificato.')
+    @commands.command(
+        name='kick',
+        description='Kicks a user from the server.',
+        usage='£kick (User) (Reason)',
+        brief='Kicks a user'
+    )
     @commands.has_permissions(kick_members=True)
     async def kick(self, ctx, member: discord.Member = None, *, reason=None):
         if member == None:
@@ -170,7 +195,13 @@ class Moderation(commands.Cog):
             )
             await ctx.send(embed=embed)
            
-    @commands.command(name='userinfo', description='Fornirà informazioni di un utente.')
+    @commands.command(
+        name='userinfo',
+        description='Gives information about a user.',
+        usage='£userinfo (User)',
+        brief='Information of a user',
+        aliases=["whois", "infouser"]
+    )
     async def userinfo(self, ctx, member: discord.Member = None):
         if member == None:
             member = ctx.author
@@ -209,7 +240,13 @@ class Moderation(commands.Cog):
         )
         await ctx.send(embed=embed)
         
-    @commands.command(name='serverinfo', description='Fornirà informazioni sul server.')
+    @commands.command(
+        name='serverinfo',
+        description='Gives information about the server.',
+        usage='£serverinfo',
+        brief='Server information',
+        aliases=["infoserver"]
+    )
     async def serverinfo(self, ctx):
         embed = discord.Embed(
             color=discord.Color.orange(),
@@ -244,7 +281,7 @@ class Moderation(commands.Cog):
             
     @commands.command(
         name='listserver',
-        description='Lista dei server in cui il bot è presente',
+        description='List of servers the bot is present in.',
         usage='`£listserver`',
         aliases=['ls', 'serverlist', 'sl']        
     )
@@ -277,7 +314,13 @@ class Moderation(commands.Cog):
                 delete_after=10
             )                
             
-    @commands.command(name='setnickname', description='Cambia il nickname di un utente.')
+    @commands.command(
+        name='setnickname',
+        description='Sets a users nickname.',
+        usage='£setnickname (User) (Nickname)',
+        brief='Change users nickname',
+        aliases=["setnick"]
+    )
     @commands.bot_has_permissions(manage_nicknames = True)
     async def setnickname(self, ctx, member: discord.Member=None, *name):
         if member == None:
@@ -290,7 +333,13 @@ class Moderation(commands.Cog):
             msg = f'Resettato il nickname di `{member}` a: **{member.name}**'
         await ctx.send(msg)
             
-    @commands.command(aliases=["av", "pfp"])
+    @commands.command(
+        name='avatar',
+        description='Grabs a users profile picture.',
+        usage='£avatar (User)',
+        brief='Grabs profile picture',
+        aliases=["pfp", "av"]
+    )
     async def avatar(self, ctx, *, member: discord.Member = None):
         if not member:member=ctx.message.author
 
@@ -299,9 +348,16 @@ class Moderation(commands.Cog):
 
         await ctx.send(embed=message)            
                
-    @commands.command(aliases=["links", "link", "social"])
+    @commands.command(
+        name='socials',
+        description='Gives links to all BTE Italias official links.',
+        usage='£socials',
+        brief='BTE Italias Socials',
+        aliases=["social", "links", "link"]
+    )
     async def socials(self, ctx):
-        await ctx.channel.send("<:TikTok:1008819190574104646> **TikTok**: <https://tiktok.com/@bteitalia>\n<:Youtube:814457415599652904> **YouTube**: <https://www.youtube.com/c/BuildTheEarthItaly/>\n<:Instagram:814457416296431656> **Instagram**: <https://instagram.com/bteitalia/>\n<:Discord:847918459647164466> **Discord**: <https://discord.gg/fuEg2aQTy9>\n<:bte_italy:991738968725000433> **Sito Web**: <https://bteitalia.tk/>\n<:minecraft:1008821296131477535> **Server Minecraft**: mc.bteitalia.tk")            
+        await ctx.channel.send("<:TikTok:1008819190574104646> **TikTok**: <https://tiktok.com/@bteitalia>\n<:Youtube:814457415599652904> **YouTube**: <https://www.youtube.com/c/BuildTheEarthItaly/>\n<:Instagram:814457416296431656> **Instagram**: <https://instagram.com/bteitalia/>\n<:Discord:847918459647164466> **Discord**: <https://discord.gg/fuEg2aQTy9>\n<:bte_italy:991738968725000433> **Sito Web**: <https://bteitalia.tk/>\n<:minecraft:1008821296131477535> **Server Minecraft**: mc.bteitalia.tk")   
+               
             
 def setup(bot):
     bot.add_cog(Moderation(bot))
