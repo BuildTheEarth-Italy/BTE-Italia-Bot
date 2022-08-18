@@ -10,12 +10,14 @@ from datetime import timedelta
 from PIL import Image
 import qrcode
 import wikipedia
+from discord.ext.commands.cooldowns import BucketType
+
 
 class Fun(commands.Cog):
 
     def __init__(self, client):
         self.client = client
-
+               
         
     @commands.command()
     async def fact(self, ctx):
@@ -39,7 +41,7 @@ class Fun(commands.Cog):
                  "Circa il 10-20% delle interruzioni di corrente negli Stati Uniti sono causate da scoiattoli."
                 ]
 
-        fact_file = open("/home/container/cogs/facts.txt", mode="r", encoding="utf8")
+        fact_file = open("/home/container/facts.txt", mode="r", encoding="utf8")
         fact_file_facts = fact_file.read().split("\n")
         fact_file.close()
 
@@ -74,7 +76,7 @@ class Fun(commands.Cog):
                  "Approximately 10-20% of U.S. power outages are caused by squirrels."
                 ]
 
-        fact_file = open("/home/container/cogs/facts_en.txt", mode="r", encoding="utf8")
+        fact_file = open("/home/container/facts_en.txt", mode="r", encoding="utf8")
         fact_file_facts = fact_file.read().split("\n")
         fact_file.close()
 
@@ -346,6 +348,7 @@ class Fun(commands.Cog):
             await ctx.send(embed=e)
         except:
             await ctx.send(f"Nome del paese non valido o errore API! Riprovare più tardi.")    
-    
+        
+        
 def setup(client):
     client.add_cog(Fun(client))
