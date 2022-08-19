@@ -17,7 +17,7 @@ class Fun(commands.Cog):
 
     def __init__(self, client):
         self.client = client
-               
+                       
         
     @commands.command(
         name='fact',
@@ -421,6 +421,67 @@ class Fun(commands.Cog):
         except:
             await ctx.send(f"Nome del paese non valido o errore API! Riprovare più tardi.")    
         
+    @commands.command(
+        name='chucknorris',
+        description='Will send random chucknorris fact or quote.',
+        usage='£chucknorris',
+        brief='Chucknorris quote or fact',
+        aliases=["cn", "chuck", "norris", "chuck norris"]
+    )
+    async def chucknorris(self, ctx):
+        url = 'https://api.chucknorris.io/jokes/random'
+        jokeJSON = requests.get(url).json()['value']
+        message = discord.Embed(title="BTE Italia <:bte_italy:991738968725000433> ", colour=discord.Colour.orange())
+        message.add_field(name=":cowboy: Chuck Norris:", value=jokeJSON, inline=True)
+        await ctx.send(embed=message)
+        
+    @commands.command(
+        name='advice',
+        description='Will send random life advice.',
+        usage='£advice',
+        brief='Life advice',
+        aliases=["consiglio"]
+    )
+    async def advice(self, ctx):
+        url = 'https://api.adviceslip.com/advice'
+        r = requests.get(url).json()
+        advice = {
+        'advice' : r['slip']['advice']
+        }
+        message = discord.Embed(title="BTE Italia <:bte_italy:991738968725000433> ", colour=discord.Colour.orange())
+        message.add_field(name=":innocent: Advice:", value=advice['advice'], inline=True)
+        await ctx.send(embed=message)
+        
+    @commands.command(
+        name='ftopayrespect',
+        description='Send F to pay respect.',
+        usage='£f',
+        brief='Pay respect',
+        aliases=["f", "pressf", "press f", "F"]
+    )
+    async def ftopayrespects(self, ctx):
+        sender = ctx.message.author
+        hearts = [
+            ':heart:',
+            ':purple_heart:',
+            ':blue_heart:',
+            ':green_heart:'
+        ]
+        await ctx.send("{} ha reso omaggio {}".format(sender.mention, random.choice(hearts)))
+        
+    @commands.command(
+        name='dadjoke',
+        description='Sends a Dad joke.',
+        usage='£dadjoke',
+        brief='Dad joke',
+        aliases=["dj", "joke", "dad"]
+    )
+    async def dadjoke(self, ctx):
+        url = 'https://icanhazdadjoke.com/'
+        joke = requests.get(url, headers={"Accept":'application/json '}).json()
+        message = discord.Embed(title="BTE Italia <:bte_italy:991738968725000433> ", colour=discord.Colour.orange())
+        message.add_field(name=":bearded_person: Dad Joke:", value=joke['joke'], inline=True)
+        await ctx.send(embed=message)
         
 def setup(client):
     client.add_cog(Fun(client))
