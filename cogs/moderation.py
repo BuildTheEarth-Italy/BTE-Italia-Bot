@@ -10,6 +10,7 @@ from datetime import datetime
 from discord.utils import get
 import math
 import json
+from datetime import datetime as dt
 
 class Moderation(commands.Cog):
     def __init__(self, bot):
@@ -55,7 +56,7 @@ class Moderation(commands.Cog):
         bans = await ctx.guild.bans()
 
         def check(reaction, user):
-            return user != self.client.user
+            return user != self.bot.user
         message = None
 
         while True:
@@ -73,7 +74,7 @@ class Moderation(commands.Cog):
                 await message.add_reaction("◀️")
                 await message.add_reaction("▶️")
                 try:
-                    reaction, user = await self.client.wait_for('reaction_add', timeout=30.0, check=check)
+                    reaction, user = await self.bot.wait_for('reaction_add', timeout=30.0, check=check)
                 except asyncio.TimeoutError:
                     await message.clear_reaction("◀️")
                     await message.clear_reaction("▶️")
@@ -358,6 +359,82 @@ class Moderation(commands.Cog):
     async def socials(self, ctx):
         await ctx.channel.send("<:TikTok:1008819190574104646> **TikTok**: <https://tiktok.com/@bteitalia>\n<:Youtube:814457415599652904> **YouTube**: <https://www.youtube.com/c/BuildTheEarthItaly/>\n<:Instagram:814457416296431656> **Instagram**: <https://instagram.com/bteitalia/>\n<:Discord:847918459647164466> **Discord**: <https://discord.gg/fuEg2aQTy9>\n<:bte_italy:991738968725000433> **Sito Web**: <https://bteitalia.tk/>\n<:minecraft:1008821296131477535> **Server Minecraft**: mc.bteitalia.tk")   
                
+    @commands.command(
+        name='unload',
+        description='Unloads cog from the bot.',
+        usage='£unload (Cog)',
+        brief='Unload cog',
+        aliases=["ul"]
+    )
+    @commands.has_role(859467091639009350)
+    async def unload(self, ctx, extension:str="all"):
+        await self.handle_cog(ctx, self.bot.unload_extension, extension)
+
+    @commands.command(
+        name='reload',
+        description='Reload cog from the bot.',
+        usage='£reload (Cog)',
+        brief='Reload cog',
+        aliases=["rl"]
+    )
+    @commands.has_role(859467091639009350)
+    async def reload(self, ctx, extension:str="all"):
+        await self.handle_cog(ctx, self.bot.reload_extension, extension)
+
+    @commands.command(
+        name='load',
+        description='Loads cog from the bot.',
+        usage='£load (Cog)',
+        brief='Load cog',
+        aliases=["ld"]
+    )
+    @commands.has_role(859467091639009350)
+    async def load(self, ctx, extension:str="all"):
+        await self.handle_cog(ctx, self.bot.load_extension, extension)
+        
+    async def handle_cog(self, ctx, func, extension):
+        """load/unload/reload given cog, or all cogs, based on func arg"""
+        extension = extension.lower()
+
+        func_name = {
+            "unload_extension": "unload",
+            "reload_extension": "reload",
+            "load_extension": "load"
+        }[func.__name__]  # get proper function name to use it like a verb
+
+        if extension == "all":
+            message = ""
+            for i, file in enumerate(os.listdir("./cogs")):
+                if file.endswith(".py"):
+                    file = file[:-3]
+                    try:
+                        func(f"cogs.{file}")
+                        message += f"+ [{i}] cog \"{file}\" {func_name}ed successfully\n"
+                    except Exception as e:
+                        message += f"- [{i}] unable to {func_name} cog \"{file}\". {e.__class__.__name__}: {e}\n"
+
+            embed = discord.Embed(description=f"```diff\n{message}\n```")
+            return await ctx.reply(embed=embed)
+
+        try:
+            func(f"cogs.{extension}")
+            embed = discord.Embed(description=f"```diff\n+ cog \"{extension}\" {func_name}ed successfully\n```")
+            await ctx.reply(embed=embed)
+        except Exception as e:
+            embed= discord.Embed(description=f"```diff\n- unable to {func_name} cog \"{extension}\". {e.__class__.__name__}: {e}```\n")
+            await ctx.reply(embed=embed)
+
+            
+    @unload.error
+    @load.error
+    @reload.error
+    async def handler(self, ctx, error):
+        if isinstance(error, commands.MissingRole):
+            embed = discord.Embed(
+                description=":x: Non hai il permesso di usare questo comando.", color=discord.Color.red())
+            await ctx.send(embed=embed)
+        else:
+            print(error)  
             
 def setup(bot):
     bot.add_cog(Moderation(bot))
