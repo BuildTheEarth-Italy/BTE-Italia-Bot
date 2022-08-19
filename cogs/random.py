@@ -483,5 +483,30 @@ class Fun(commands.Cog):
         message.add_field(name=":bearded_person: Dad Joke:", value=joke['joke'], inline=True)
         await ctx.send(embed=message)
         
+    @commands.command(
+        name='flip',
+        description='Will flip a coin, heads or tail.',
+        usage='£coinflip',
+        brief='Flips a coin',
+        aliases=["cf", "coinflip", "coin"]
+    )
+    async def flip(self, ctx, user : discord.Member=None):
+        if user != None:
+            msg = ""
+            if user.id == self.bot.user.id:
+                user = ctx.message.author
+                msg = "Nice try. You think this is funny? How about *this* instead:\n\n"
+            char = "abcdefghijklmnopqrstuvwxyz"
+            tran = "ɐqɔpǝɟƃɥᴉɾʞlɯuodbɹsʇnʌʍxʎz"
+            table = str.maketrans(char, tran)
+            name = user.display_name.translate(table)
+            char = char.upper()
+            tran = "∀qƆpƎℲפHIſʞ˥WNOԀQᴚS┴∩ΛMX⅄Z"
+            table = str.maketrans(char, tran)
+            name = name.translate(table)
+            await ctx.send(msg + "(╯°□°）╯︵ " + name[::-1])
+        else:
+            await ctx.send("*Lancia una moneta e... " + random.choice(["TESTA!*", "CROCE!*"]))        
+        
 def setup(client):
     client.add_cog(Fun(client))
