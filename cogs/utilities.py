@@ -300,7 +300,7 @@ class Utilities(commands.Cog):
 
             try:
                 punti_valutazioni = ctx.guild.get_channel(779438755912220713)
-                await punti_valutazioni.send(f"{minecraft_name} = {points}")
+                await punti_valutazioni.send(f"`{minecraft_name}` = {points}")
             
             except:
                 embed = discord.Embed(description=f"Non posso mandare il messaggio a <#779438755912220713>", color=discord.Color.red())
