@@ -1,12 +1,9 @@
+import datetime
 import discord
 import emoji
 from discord.ext import commands
-import subprocess
-from subprocess import STDOUT,PIPE
-from PIL import Image
-import requests
-from io import BytesIO
-import os 
+import time
+import os
 import asyncio
 import time
 
@@ -312,6 +309,48 @@ class Utilities(commands.Cog):
 
             confirmation_message = discord.Embed(description=f":white_check_mark: Costruzione valutata!", color=discord.Color.green())
             await ctx.send(embed=confirmation_message)
+
+
+
+    async def annouce(self, ctx, deadline, message):
+        await discord.utils.sleep_until(deadline)
+        print('Meeting annouced!')
+
+        channel = ctx.guild.get_channel(758036680560345228)
+        await channel.send(message)
+
+
+    @commands.command(name='riunione')
+    @commands.has_role(756854255662661643)
+    async def riunione(self, ctx, *, date=None):
+        if date != None:
+            try:
+                deadline = datetime.datetime.strptime(f"{date}" , "%d/%m/%Y %H:%M")
+                before_deadline = deadline - datetime.timedelta(minutes=30)
+                if before_deadline > datetime.datetime.now():
+                    
+                    message = "<@734716661474525244>\nRiunione tra 30 minuti! :bte_italy_animated:"
+                    await asyncio.run(await self.annouce(ctx, before_deadline, message))
+                
+                if deadline > datetime.datetime.now():
+
+                    message = "<@734716661474525244>\nRiunione in corso! :bte_italy_animated:"
+                    await asyncio.run(await self.annouce(ctx, deadline, message))
+
+            except Exception as e:
+                print(e.__str__())
+                embed = discord.Embed(
+                    description="Sorry, I don't understand it. Please provide the date as follows:\n`£riunione [day/month/year hour:minute]`", 
+                    color=discord.Color.red()
+                    )
+                await ctx.send(embed=embed)
+        
+        else:
+            embed = discord.Embed(
+                description="Please provide the date as follows:\n`£riunione [day/month/year hour:minute]`", 
+                color=discord.Color.blue()
+                )
+            await ctx.send(embed=embed)
 
                         
 
