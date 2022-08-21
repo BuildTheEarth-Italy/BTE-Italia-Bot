@@ -11,6 +11,7 @@ from discord.utils import get
 import math
 import json
 from datetime import datetime as dt
+import typing
 
 class Moderation(commands.Cog):
     def __init__(self, bot):
@@ -357,7 +358,14 @@ class Moderation(commands.Cog):
         aliases=["social", "links", "link"]
     )
     async def socials(self, ctx):
-        await ctx.channel.send("<:TikTok:1008819190574104646> **TikTok**: <https://tiktok.com/@bteitalia>\n<:Youtube:814457415599652904> **YouTube**: <https://www.youtube.com/c/BuildTheEarthItaly/>\n<:Instagram:814457416296431656> **Instagram**: <https://instagram.com/bteitalia/>\n<:Discord:847918459647164466> **Discord**: <https://discord.gg/fuEg2aQTy9>\n<:bte_italy:991738968725000433> **Sito Web**: <https://bteitalia.tk/>\n<:minecraft:1008821296131477535> **Server Minecraft**: mc.bteitalia.tk")   
+        message = discord.Embed(title="<:bte_italy:991738968725000433> Lista Social BTE Italia ", colour=discord.Colour.blue())
+        message.add_field(name="<:TikTok:1008819190574104646> **TikTok**:", value="<https://tiktok.com/@bteitalia>", inline=False)
+        message.add_field(name="<:Youtube:814457415599652904> **YouTube**:", value="<https://www.youtube.com/c/BuildTheEarthItaly/>", inline=False)
+        message.add_field(name="<:Instagram:814457416296431656> **Instagram**:", value="<https://instagram.com/bteitalia/>", inline=False)
+        message.add_field(name="<:Discord:847918459647164466> **Discord**:", value="<https://discord.gg/fuEg2aQTy9>", inline=False)
+        message.add_field(name="<:bte_italy:991738968725000433> **Sito Web**:", value="<https://bteitalia.tk/>", inline=False)
+        message.add_field(name="<:minecraft:1008821296131477535> **Server Minecraft**:", value="`mc.bteitalia.tk`", inline=False)
+        await ctx.send(embed=message)      
                
     @commands.command(
         name='unload',
