@@ -395,7 +395,7 @@ class Utilities(commands.Cog):
     )
     async def ip(self, ctx):         
             embed = discord.Embed(
-                description="<:bte_italy:991738968725000433> **Ecco gli IP per il nostro Server Minecraft!**\n\n:coffee: **Java** `mc.bteitalia.tk`\n:pick: **Bedrock** `bedrock.buildtheearth.net`", color=discord.Color.blue())
+                description="<:bte_italy:991738968725000433> **Ecco gli IP per il nostro Server Minecraft!**\n\n<:java:1010963036342861824> **Java**: `mc.bteitalia.tk`\n<:bedrock:1010963327654055937> **Bedrock**: `bedrock.buildtheearth.net`", color=discord.Color.blue())
             await ctx.send(embed=embed)     
 
                 
