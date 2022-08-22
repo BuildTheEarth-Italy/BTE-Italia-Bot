@@ -413,5 +413,5 @@ class Utilities(commands.Cog):
             print(error)
             
 
-def setup(bot):
-    bot.add_cog(Utilities(bot))
+async def setup(bot):
+    await bot.add_cog(Utilities(bot))

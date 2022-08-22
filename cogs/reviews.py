@@ -184,5 +184,5 @@ class Reviews(commands.Cog):
         await member.add_roles(newbie_role)
 
 
-def setup(bot):
-    bot.add_cog(Reviews(bot))
+async def setup(bot):
+    await bot.add_cog(Reviews(bot))

@@ -4,19 +4,15 @@ import requests
 import json
 import shutil
 from io import BytesIO
-import time
-import datetime
-from datetime import timedelta
-from PIL import Image
 import qrcode
 import wikipedia
-from discord.ext.commands.cooldowns import BucketType
+import asyncio
 
 
-class Fun(commands.Cog):
+class Random(commands.Cog):
 
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
                        
         
     @commands.command(
@@ -142,7 +138,7 @@ class Fun(commands.Cog):
         brief='Measures how stupid a user is',
         aliases=["stupido"]
     )
-    async def stupid(ctx, member : discord.Member = None):
+    async def stupid(self, ctx, member = None):
         percentage = (random.randint(0, 100))
 
         if member == None:
@@ -157,14 +153,16 @@ class Fun(commands.Cog):
                 await asyncio.sleep(3)
                 await message.edit(content=f"Sei {percentage}% stupido!")
 
-        if member == member:
+        else:
+            converter = commands.MemberConverter()
+            member = converter.convert(ctx, member)
 
             if member.id == (477570902075113472):
                 message = await ctx.channel.send("Calcolando...")
                 await asyncio.sleep(3)
                 await message.edit(content=f"{member.mention} è 100% stupido!")
 
-            elif member == bot.user:
+            elif member.id == self.bot.user.id:
                 message = await ctx.channel.send("Calcolando...")
                 await asyncio.sleep(3)
                 await message.edit(content=f"Sono troppo intelligente, anullando calcolo...")
@@ -256,13 +254,6 @@ class Fun(commands.Cog):
         await ctx.send(file=f)
             
     @skin.error
-    async def handler(self, ctx, error):
-        if isinstance(error, commands.BadArgument) or isinstance(error, commands.MissingRequiredArgument):
-            embed=discord.Embed(description=':x: Per favore fornisci un nome utente valido.', color=discord.Color.red())
-            await ctx.channel.send(embed=embed)
-        else:
-            print(error)
-            
     @meteo.error
     async def handler(self, ctx, error):
         if isinstance(error, commands.BadArgument) or isinstance(error, commands.MissingRequiredArgument):
@@ -280,7 +271,8 @@ class Fun(commands.Cog):
     )
     async def ping(self, ctx):
    
-        await ctx.send(f':signal_strength: **Ping Attuale**: {round(self.client.latency * 1000)} ms')                    
+        await ctx.send(f':signal_strength: **Ping Attuale**: {round(self.bot.latency * 1000)} ms')                    
+
 
     @commands.command(
         name='kanyequote',
@@ -313,11 +305,13 @@ class Fun(commands.Cog):
       )
 
         embed.set_footer(
-            text=f"Richiesto da {ctx.author}", icon_url=ctx.author.avatar_url
+            text=f"Richiesto da {ctx.author}", icon_url=ctx.author.avatar.url
       )
         embed.set_thumbnail(url=pick_img)
 
         await ctx.message.reply(embed=embed)   
+
+
 
     @commands.command(
         name='qrcode',
@@ -362,7 +356,9 @@ class Fun(commands.Cog):
         embed.description = page
         embed.add_field(name="Link", value=url ,inline=False)
         await ctx.send(embed=embed)
-       
+
+
+
     @commands.command(
         name='wikisearch',
         description='Will research for arguments provided on wikipedia.',
@@ -372,6 +368,8 @@ class Fun(commands.Cog):
     )
     async def wikisearch(self, ctx, *, query):
         await ctx.send(wikipedia.search(query))
+
+
 
     @commands.command(
         name='covid',
@@ -420,7 +418,9 @@ class Fun(commands.Cog):
             await ctx.send(embed=e)
         except:
             await ctx.send(f"Nome del paese non valido o errore API! Riprovare più tardi.")    
-        
+
+
+
     @commands.command(
         name='chucknorris',
         description='Will send random chucknorris fact or quote.',
@@ -434,7 +434,9 @@ class Fun(commands.Cog):
         message = discord.Embed(title="BTE Italia <:bte_italy:991738968725000433> ", colour=discord.Colour.orange())
         message.add_field(name=":cowboy: Chuck Norris:", value=jokeJSON, inline=True)
         await ctx.send(embed=message)
-        
+
+
+
     @commands.command(
         name='advice',
         description='Will send random life advice.',
@@ -451,7 +453,9 @@ class Fun(commands.Cog):
         message = discord.Embed(title="BTE Italia <:bte_italy:991738968725000433> ", colour=discord.Colour.orange())
         message.add_field(name=":innocent: Advice:", value=advice['advice'], inline=True)
         await ctx.send(embed=message)
-        
+
+
+       
     @commands.command(
         name='ftopayrespect',
         description='Send F to pay respect.',
@@ -468,7 +472,9 @@ class Fun(commands.Cog):
             ':green_heart:'
         ]
         await ctx.send("{} ha reso omaggio {}".format(sender.mention, random.choice(hearts)))
-        
+
+
+
     @commands.command(
         name='dadjoke',
         description='Sends a Dad joke.',
@@ -482,7 +488,9 @@ class Fun(commands.Cog):
         message = discord.Embed(title="BTE Italia <:bte_italy:991738968725000433> ", colour=discord.Colour.orange())
         message.add_field(name=":bearded_person: Dad Joke:", value=joke['joke'], inline=True)
         await ctx.send(embed=message)
-        
+
+
+
     @commands.command(
         name='flip',
         description='Will flip a coin, heads or tail.',
@@ -508,5 +516,5 @@ class Fun(commands.Cog):
         else:
             await ctx.send("*Lancia una moneta e... " + random.choice(["TESTA!*", "CROCE!*"]))        
         
-def setup(client):
-    client.add_cog(Fun(client))
+async def setup(bot):
+    await bot.add_cog(Random(bot))
