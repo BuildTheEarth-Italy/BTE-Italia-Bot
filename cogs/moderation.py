@@ -1,3 +1,4 @@
+from pickletools import int4
 from telnetlib import STATUS
 import discord
 import time
@@ -299,7 +300,7 @@ class Moderation(commands.Cog):
         else:
             roles_value = "Questo utente non ha ruoli"
 
-        embed.add_field(name=f":busts_in_silhouette: Ruoli ({len(roles)}):", value=roles_value)
+        embed.add_field(name=f":busts_in_silhouette: Ruoli ({len(roles) - 1}):", value=roles_value)
         embed.set_footer(
             text=f'ID: {member.id}'
         )
