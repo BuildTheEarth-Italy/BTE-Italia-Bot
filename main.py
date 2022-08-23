@@ -112,4 +112,4 @@ async def handler(ctx, error):
         print(error)
 
 
-bot.run(os.environ.get('TOKEN'))
+bot.run(os.getenv('TOKEN'))
