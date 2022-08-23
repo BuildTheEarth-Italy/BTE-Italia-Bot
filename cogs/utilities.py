@@ -2,10 +2,102 @@ import datetime
 import discord
 import emoji
 from discord.ext import commands
-import time
-import os
+from discord.ext import menus
+from discord import ui
+import requests
 import asyncio
-import time
+
+class MyMenuPages(ui.View, menus.MenuPages):
+    def __init__(self, source, page):
+        super().__init__(timeout=60)
+        self._source = source
+        self.current_page = page
+        self.ctx = None
+        self.message = None
+
+    async def start(self, ctx, *, channel=None, wait=False):
+        # We wont be using wait/channel, you can implement them yourself. This is to match the MenuPages signature.
+        await self._source._prepare_once()
+        self.ctx = ctx
+        self.message = await self.send_initial_message(ctx, ctx.channel)
+
+    async def _get_kwargs_from_page(self, page):
+        """This method calls ListPageSource.format_page class"""
+        value = await super()._get_kwargs_from_page(page)
+        if 'view' not in value:
+            value.update({'view': self})
+        return value
+
+    async def interaction_check(self, interaction):
+        """Only allow the author that invoke the command to be able to use the interaction"""
+        return interaction.user == self.ctx.author
+
+    # This is extremely similar to Custom MenuPages(I will not explain these)
+    @ui.button(emoji='⏪', style=discord.ButtonStyle.blurple)
+    async def first_page(self, interaction, button):
+        await self.show_page(0)
+        await interaction.response.defer()
+
+    @ui.button(emoji='◀️', style=discord.ButtonStyle.blurple)
+    async def before_page(self, interaction, button):
+        await self.show_checked_page(self.current_page - 1)
+        await interaction.response.defer()
+
+    @ui.button(emoji='⏹', style=discord.ButtonStyle.blurple)
+    async def stop_page(self, interaction, button):
+        self.stop()
+        await interaction.response.defer()
+
+    @ui.button(emoji='▶️', style=discord.ButtonStyle.blurple)
+    async def next_page(self, interaction, button):
+        await self.show_checked_page(self.current_page + 1)
+        await interaction.response.defer()
+
+    @ui.button(emoji='⏩', style=discord.ButtonStyle.blurple)
+    async def last_page(self, interaction, button):
+        await self.show_page(self._source.get_max_pages() - 1)
+        await interaction.response.defer()
+
+
+
+class MySource(menus.ListPageSource):
+    def __init__(self, ctx, entries, per_page):
+        self.ctx = ctx
+        self.per_page = per_page
+        self.entries = entries
+        pages, left_over = divmod(len(entries), per_page)
+        if left_over:
+            pages += 1
+
+        self._max_pages = pages
+
+    async def format_page(self, menu, entries):
+        offset = (menu.current_page * self.per_page) + 1
+        bababoi= [list(x) for x in enumerate(entries, start=offset)]
+        
+        for x in bababoi[:3]:
+            if x[0] == 1:
+                x[0] = '🥇'
+            elif x[0] == 2:
+                x[0] = '🥈'
+            elif x[0] == 3:
+                x[0] = '🥉'
+
+        total_data = len(self.entries)
+        total = f"{offset:,} of {min(total_data, offset + self.per_page -1):,} of {total_data:,} banned users"
+        
+        first_list = ["{0} - {1} - {2}".format(x[0],x[1][0],x[1][1]) for x in bababoi[:3]]
+        second_list = ["#{0} - {1} - {2}".format(x[0],x[1][0],x[1][1]) for x in bababoi[3:]]
+        first_list.extend(second_list)
+
+        e = discord.Embed(
+            title=f"👷‍♂️ Classifica Builder",
+            description="\n".join(first_list),
+            color=discord.Color.yellow()
+            )
+
+        e.set_footer(text=f"Page {(menu.current_page) + 1}/{(self._max_pages)} · Top 10 Builer BTE Italia ")
+        return e
 
 
 class Utilities(commands.Cog):
@@ -357,6 +449,8 @@ class Utilities(commands.Cog):
                 )
             await ctx.send(embed=embed)
 
+
+
     @commands.command(
         name='progressi',
         description='Will send link to BTE Italias progress map.',
@@ -368,6 +462,8 @@ class Utilities(commands.Cog):
             embed = discord.Embed(
                 description=":map: **Ecco la mappa progressi!**\nhttps://maphub.net/BTEItalia/bte-italia-progressi", color=discord.Color.blue())
             await ctx.send(embed=embed)     
+
+
 
     @commands.command(
         name='staff',
@@ -386,6 +482,8 @@ class Utilities(commands.Cog):
         message.add_field(name="<:personalerelazionipubbliche:1010588691388977153> Personale Relazioni Pubbliche", value="<:forgiobombi:1010585405889974312> `forgiobombi`\n<:I_EricDraven_I:1010595264492470314> `I_EricDraven_I`\n<:magix92:1010586235535888434> `Magix92`\n<:H2bomber_:1010603700412219523> `H2bomber_`\n<:howard9068:1010603701817331844> `howard9068`\n<:glurbB:1010603698730315787> `glurbB`", inline=False)
         await ctx.send(embed=message)  
         
+
+
     @commands.command(
         name='ip',
         description='Will send the ip to the BTE Italia Minecraft server.',
@@ -398,6 +496,30 @@ class Utilities(commands.Cog):
                 description="<:bte_italy:991738968725000433> **Ecco gli IP per il nostro Server Minecraft!**\n\n<:java:1010963036342861824> **Java**: `mc.bteitalia.tk`\n<:bedrock:1010963327654055937> **Bedrock**: `bedrock.buildtheearth.net`", color=discord.Color.blue())
             await ctx.send(embed=embed)     
 
+
+
+    @commands.command(
+        name='minecraft_leaderboard',
+        aliases=['mclb', 'mc_lb']
+    )
+    async def minecraft_leaderboard(self, ctx, page=1):
+        
+        r = requests.get("https://62.171.174.31:8000/points", verify=False)
+        data = r.json()
+        lb_data = data['Leaderboard']
+        sorted_lb_data = sorted(lb_data, key=lambda d: d['score'],  reverse=True)
+        
+        lb_list=[]
+        for x in sorted_lb_data:
+            values = list(x.values())
+            lb_list.append(values)
+
+
+        formatter = MySource(ctx, lb_list, per_page=10)
+        menu = MyMenuPages(formatter, page-1)
+        await menu.start(ctx)
+
+        
                 
     @valuta.error
     @post.error
