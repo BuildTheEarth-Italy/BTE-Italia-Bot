@@ -19,7 +19,7 @@ class MyBot(commands.Bot):
                 logging.info(f"{filename} caricato!")
 
             else:
-                logging.error(f"Unable to load {filename}.")
+                logging.error(f"Impossibile caricare {filename}.")
         
         print('BTE Italia Bot In Funzione!')
 
@@ -44,7 +44,7 @@ async def unload(ctx, extension = None):
             if filename.endswith('.py'):
                 await bot.unload_extension(f'cogs.{filename[:-3]}')
     
-    embed = discord.Embed(description=f"```➖ Unloaded cogs.{extension}```", color=discord.Color.blue())
+    embed = discord.Embed(description=f":no_entry: Tolto `cogs.{extension}`", color=discord.Color.blue())
 
     await ctx.reply(embed=embed)
 
@@ -67,7 +67,7 @@ async def reload(ctx, extension = None):
             if filename.endswith('.py'):
                 await bot.reload_extension(f'cogs.{filename[:-3]}')
     
-    embed = discord.Embed(description=f"```🔄 Reloaded cogs.{extension}```", color=discord.Color.blue())
+    embed = discord.Embed(description=f"🔄 Ricaricato `cogs.{extension}`", color=discord.Color.blue())
 
     await ctx.reply(embed=embed)
 
@@ -90,7 +90,7 @@ async def load(ctx, extension = None):
             if filename.endswith('.py'):
                 await bot.load_extension(f'cogs.{filename[:-3]}')
     
-    embed = discord.Embed(description=f"```➕ Loaded cogs.{extension}```", color=discord.Color.blue())
+    embed = discord.Embed(description=f":ballot_box_with_check: Caricato `cogs.{extension}`", color=discord.Color.blue())
 
     await ctx.reply(embed=embed)
     
@@ -106,7 +106,7 @@ async def handler(ctx, error):
         await ctx.reply(embed=embed)
     elif isinstance(error, commands.ExtensionAlreadyLoaded):
         embed = discord.Embed(
-            description=":x: Extension already loaded.", color=discord.Color.red())
+            description=":x: Estensione già caricata.", color=discord.Color.red())
         await ctx.reply(embed=embed)
     else:
         print(error)
