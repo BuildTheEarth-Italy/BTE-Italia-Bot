@@ -45,15 +45,17 @@ async def on_connect():
 async def unload(ctx, extension = None):
     if extension != None:
         await bot.unload_extension(f'cogs.{extension}')
+
+        embed = discord.Embed(description=f":no_entry: Tolto `cogs.{extension}`", color=discord.Color.blue())
+        await ctx.reply(embed=embed)
     
     else:
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
                 await bot.unload_extension(f'cogs.{filename[:-3]}')
-    
-    embed = discord.Embed(description=f":no_entry: Tolto `cogs.{extension}`", color=discord.Color.blue())
-
-    await ctx.reply(embed=embed)
+        
+        embed = discord.Embed(description=f":ballot_box_with_check: Unloaded all cogs", color=discord.Color.blue())
+        await ctx.reply(embed=embed)
 
 
 
@@ -64,19 +66,21 @@ async def unload(ctx, extension = None):
     brief='Reload cog',
     aliases=["rl"]
     )
-@commands.has_role(859467091639009350)
+#@commands.has_role(859467091639009350)
 async def reload(ctx, extension = None):
     if extension != None:
         await bot.reload_extension(f'cogs.{extension}')
+        
+        embed = discord.Embed(description=f"🔄 Ricaricato `cogs.{extension}`", color=discord.Color.blue())
+        await ctx.reply(embed=embed)
     
     else:
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
                 await bot.reload_extension(f'cogs.{filename[:-3]}')
-    
-    embed = discord.Embed(description=f"🔄 Ricaricato `cogs.{extension}`", color=discord.Color.blue())
 
-    await ctx.reply(embed=embed)
+        embed = discord.Embed(description=f"🔄 Reloaded all cogs", color=discord.Color.blue())
+        await ctx.reply(embed=embed)
 
 
 
@@ -91,21 +95,23 @@ async def reload(ctx, extension = None):
 async def load(ctx, extension = None):
     if extension != None:
         await bot.load_extension(f'cogs.{extension}')
+
+        embed = discord.Embed(description=f":ballot_box_with_check: Caricato `cogs.{extension}`", color=discord.Color.blue())
+        await ctx.reply(embed=embed)
     
     else:
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
                 await bot.load_extension(f'cogs.{filename[:-3]}')
-    
-    embed = discord.Embed(description=f":ballot_box_with_check: Caricato `cogs.{extension}`", color=discord.Color.blue())
-
-    await ctx.reply(embed=embed)
+        
+        embed = discord.Embed(description=f":ballot_box_with_check: Loaded all cogs", color=discord.Color.blue())
+        await ctx.reply(embed=embed)
     
 
 
 @unload.error
 @load.error
-@reload.error
+#@reload.error
 async def handler(ctx, error):
     if isinstance(error, commands.MissingRole):
         embed = discord.Embed(
