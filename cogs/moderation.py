@@ -5,7 +5,6 @@ import time
 from discord import ui
 from discord.ext import commands
 from discord.ext import menus
-from discord.ext.menus import button, First, Last
 import time
 import math
 
@@ -92,6 +91,7 @@ class Moderation(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+
     @commands.command(
         name='clear',
         description='Deletes a specified amount of messages.',
@@ -120,6 +120,7 @@ class Moderation(commands.Cog):
         else:
             print(error)
     
+
     @commands.command(
         name='banlist',
         description='Gives a list of banned users.',
@@ -133,6 +134,7 @@ class Moderation(commands.Cog):
         formatter = MySource(ctx, banlist, per_page=10)
         menu = MyMenuPages(formatter, page-1)
         await menu.start(ctx)
+
 
     @commands.command(
         name='ban',

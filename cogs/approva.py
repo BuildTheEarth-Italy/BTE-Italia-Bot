@@ -1,17 +1,15 @@
 from discord import Embed, Color
 from discord.ext import commands
-
+from discord.ext import tasks
 from os import environ
 from utils.spreadsheet import Spreadsheet
-from asyncio import sleep
+import asyncio
 
 sh = Spreadsheet(environ.get('SPREADSHEET_ID'))
 
-
+@tasks.loop(seconds=3600)
 async def refresh_spreadsheet():
-    while True:
-        sh.fetch()
-        await sleep(3600)  # 1 hour
+    sh.fetch()  # 1 hour
 
 
 class Approva(commands.Cog):
@@ -113,4 +111,4 @@ class Approva(commands.Cog):
 
 async def setup(bot):
     await bot.add_cog(Approva(bot))
-    bot.loop.create_task(refresh_spreadsheet())
+    refresh_spreadsheet.start()
