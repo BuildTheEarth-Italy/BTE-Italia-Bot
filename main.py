@@ -33,6 +33,7 @@ async def on_connect():
     print("BTE Italia Bot is connected to Discord")
 
 
+
 @bot.command(
     name='unload',
     description='Unloads cog from the bot.',

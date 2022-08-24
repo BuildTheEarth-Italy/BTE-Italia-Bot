@@ -6,7 +6,6 @@ from discord import ui
 from discord.ext import commands
 from discord.ext import menus
 import time
-import math
 
 class MyMenuPages(ui.View, menus.MenuPages):
     def __init__(self, source, page):
@@ -233,152 +232,7 @@ class Moderation(commands.Cog):
             )
             await ctx.send(embed=embed)
 
-
-    @commands.command(
-        name='userinfo',
-        description='Gives information about a user.',
-        usage='£userinfo (User)',
-        brief='Information of a user',
-        aliases=["whois", "infouser"]
-    )
-    async def userinfo(self, ctx, *, member = None):
-
-        converter = commands.MemberConverter()
-
-        if member != None:
-            member = await converter.convert(ctx,member)
-
-        else:
-            member = ctx.author
-
-        roles = [role for role in member.roles] 
-
-        embed = discord.Embed(
-            color=discord.Color.orange(),
-            timestamp=ctx.message.created_at
-        )
-        embed.set_thumbnail(url=member.avatar.url)
-        embed.set_author(name=f'Informazioni su: {member.display_name}')
-
-        if member.raw_status == "online":
-            status = "online"
-
-        elif member.raw_status == "offline":
-            status = "offline"
-        
-        elif member.raw_status == "idle":
-            status = "inattivo"
-
-        elif member.raw_status == "dnd":
-            status = "non disturbare"
-
-        elif member.raw_status == "invisible":
-            status = "offline"
-        
-
-        embed.add_field(
-            name=':bust_in_silhouette: Informazioni Account',
-            value=f":signal_strength: Attualmente {status}\n:beginner: Creato il {member.created_at.strftime('%d %b %Y %H:%M')}",
-            inline=False
-        )
-
-        if member.premium_since == None:
-            embed.add_field(
-                name=':desktop: Informazioni Server',
-                value=f":beginner: Entrato il {member.joined_at.strftime('%d %b %Y %H:%M')}\n:x: Non boostando il server",
-                inline=False
-            )
-
-        else:
-            embed.add_field(
-                name=':desktop: Informazioni Server',
-                value=f":beginner: Entrato il {member.joined_at.strftime('%d %b %Y %H:%M')}\n:sparkles: Boostando il server",
-                inline=False
-            )
-
-        if len(roles) != 1:
-            roles_value = " ".join([role.mention for role in roles[1:]])
-        
-        else:
-            roles_value = "Questo utente non ha ruoli"
-
-        embed.add_field(name=f":busts_in_silhouette: Ruoli ({len(roles) - 1}):", value=roles_value)
-        embed.set_footer(
-            text=f'ID: {member.id}'
-        )
-        await ctx.send(embed=embed)
-        
-    @commands.command(
-        name='serverinfo',
-        description='Gives information about the server.',
-        usage='£serverinfo',
-        brief='Server information',
-        aliases=["infoserver"]
-    )
-    async def serverinfo(self, ctx):
-        embed = discord.Embed(
-            color=discord.Color.orange(),
-            timestamp=ctx.message.created_at
-            )
-        
-        embed.set_footer(text=f'ID: {ctx.guild.id}')
-        embed.set_thumbnail(url=ctx.guild.icon.url)
-        embed.set_author(name=ctx.guild.name)
-        embed.add_field(
-            name=':desktop: Server info',
-            value=f":beginner: Creato il {ctx.guild.created_at.strftime('%d %b %Y %H:%M')}\n:sparkles: Livello boost server: {ctx.guild.premium_tier}\n:crown: Creatore Server: {ctx.guild.owner.display_name}",
-            inline=False
-        )
-        embed.add_field(
-            name=':bust_in_silhouette: Membri',
-            value=f"{ctx.guild.member_count} memberi nel server\n{ctx.guild.premium_subscription_count} persone hanno boostato il server",
-            inline=False
-        )
-        role_output = ''
-        for role in ctx.guild.roles:
-            role_output += str(role)+' | '
-        embed.add_field(
-            name=':busts_in_silhouette: Ruoli',
-            value=role_output,
-            inline=False
-        )
-
-        await ctx.send(embed=embed)        
-            
-    @commands.command(
-        name='listserver',
-        description='List of servers the bot is present in.',
-        usage='`£listserver`',
-        aliases=['ls', 'serverlist', 'sl']        
-    )
-    async def listserver(self, ctx, page: int = 1):
-        output = ''
-        guilds = self.bot.guilds
-        pages = math.ceil(len(guilds)/10)
-        if 1 <= page <= pages:
-            counter = 1+(page-1)*10
-            for guild in guilds[(page-1)*10:page*10]:
-                output += f'{counter}. {guild.name}\n'
-                counter += 1
-            embed = discord.Embed(
-                color=discord.Color.orange(),
-                description=output,
-                title='**LISTA SERVER**',
-                timestamp=ctx.message.created_at
-            )
-            embed.set_footer(
-                text=f'Pagina {page} su {pages}'
-            )
-            await ctx.send(
-                embed=embed
-            )
-        else:
-            await ctx.send(
-                embed=create_embed(
-                    ':x: La pagina che hai specificato non esiste'
-                ),
-                delete_after=10
-            )                
+     
             
 
     @commands.command(
@@ -418,24 +272,7 @@ class Moderation(commands.Cog):
         message = discord.Embed(title=str(member), color=discord.Colour.orange())
         message.set_image(url=member.avatar.url)
 
-        await ctx.send(embed=message)            
-               
-    @commands.command(
-        name='socials',
-        description='Gives links to all BTE Italias official links.',
-        usage='£socials',
-        brief='BTE Italias Socials',
-        aliases=["social", "links", "link"]
-    )
-    async def socials(self, ctx):
-        message = discord.Embed(title="<:bte_italy:991738968725000433> Lista Social BTE Italia ", colour=discord.Colour.blue())
-        message.add_field(name="<:TikTok:1008819190574104646> **TikTok**:", value="<https://tiktok.com/@bteitalia>", inline=False)
-        message.add_field(name="<:Youtube:814457415599652904> **YouTube**:", value="<https://www.youtube.com/c/BuildTheEarthItaly/>", inline=False)
-        message.add_field(name="<:Instagram:814457416296431656> **Instagram**:", value="<https://instagram.com/bteitalia/>", inline=False)
-        message.add_field(name="<:Discord:847918459647164466> **Discord**:", value="<https://discord.gg/fuEg2aQTy9>", inline=False)
-        message.add_field(name="<:bte_italy:991738968725000433> **Sito Web**:", value="<https://bteitalia.tk/>", inline=False)
-        message.add_field(name="<:minecraft:1008821296131477535> **Server Minecraft**:", value="`mc.bteitalia.tk`", inline=False)
-        await ctx.send(embed=message)      
+        await ctx.send(embed=message)              
 
 
     @setnickname.error
