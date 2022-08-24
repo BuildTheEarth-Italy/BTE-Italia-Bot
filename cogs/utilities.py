@@ -75,6 +75,7 @@ class MySource(menus.ListPageSource):
         offset = (menu.current_page * self.per_page) + 1
         bababoi= [list(x) for x in enumerate(entries, start=offset)]
         
+
         for x in bababoi[:3]:
             if x[0] == 1:
                 x[0] = '🥇'
@@ -85,10 +86,13 @@ class MySource(menus.ListPageSource):
 
         total_data = len(self.entries)
         total = f"{offset:,} of {min(total_data, offset + self.per_page -1):,} of {total_data:,} banned users"
-        
-        first_list = ["{0} - {1} - {2}".format(x[0],x[1][0],x[1][1]) for x in bababoi[:3]]
-        second_list = ["#{0} - {1} - {2}".format(x[0],x[1][0],x[1][1]) for x in bababoi[3:]]
-        first_list.extend(second_list)
+        if menu.current_page==0:
+            first_list = ["{0} - {1} - {2}".format(x[0],x[1][0],x[1][1]) for x in bababoi[:3]]
+            second_list = ["#{0} - {1} - {2}".format(x[0],x[1][0],x[1][1]) for x in bababoi[3:]]
+            first_list.extend(second_list)
+
+        else:
+            first_list = ["#{0} - {1} - {2}".format(x[0],x[1][0],x[1][1]) for x in bababoi]
 
         e = discord.Embed(
             title=f"👷‍♂️ Classifica Builder",
