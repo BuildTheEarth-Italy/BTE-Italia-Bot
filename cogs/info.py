@@ -3,6 +3,7 @@ from discord.ext import commands
 from discord import ui
 from discord.ext import menus
 import requests
+import math
 
 
 class MyMenuPages(ui.View, menus.MenuPages):
