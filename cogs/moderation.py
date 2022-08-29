@@ -77,7 +77,7 @@ class MySource(menus.ListPageSource):
         total_data = len(self.entries)
         total = f"{offset:,} - {min(total_data, offset + self.per_page -1):,} of {total_data:,} banned users"
 
-        e = discord.Embed(title=f"Ban list · Page {(menu.current_page) + 1} of {(self._max_pages)}", color=discord.Color.blue())
+        e = discord.Embed(title=f":hammer: Ban list · Page {(menu.current_page) + 1} of {(self._max_pages)}", color=discord.Color.blue())
 
         for name, value in entries:
             e.add_field(name=name, value=value, inline=False)
