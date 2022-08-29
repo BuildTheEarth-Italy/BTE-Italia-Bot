@@ -161,7 +161,7 @@ class Info(commands.Cog):
     )
     async def minecraft_leaderboard(self, ctx, page=1):
         
-        r = requests.get("https://62.171.174.31:8000/points", verify=False)
+        r = requests.get("https://62.171.174.31:2083/points", verify=False)
         data = r.json()
         lb_data = data['Leaderboard']
         sorted_lb_data = sorted(lb_data, key=lambda d: d['score'],  reverse=True)
