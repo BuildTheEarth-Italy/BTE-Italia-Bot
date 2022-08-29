@@ -87,20 +87,20 @@ class MySource(menus.ListPageSource):
         total_data = len(self.entries)
         total = f"{offset:,} of {min(total_data, offset + self.per_page -1):,} of {total_data:,} banned users"
         if menu.current_page==0:
-            first_list = ["{0} - {1} - {2}".format(x[0],x[1][0],x[1][1]) for x in bababoi[:3]]
-            second_list = ["#{0} - {1} - {2}".format(x[0],x[1][0],x[1][1]) for x in bababoi[3:]]
+            first_list = ["{0} - `{1}` ➤ {2}".format(x[0],x[1][0],x[1][1]) for x in bababoi[:3]]
+            second_list = ["#{0} - `{1}` ➤ {2}".format(x[0],x[1][0],x[1][1]) for x in bababoi[3:]]
             first_list.extend(second_list)
 
         else:
-            first_list = ["#{0} - {1} - {2}".format(x[0],x[1][0],x[1][1]) for x in bababoi]
+            first_list = ["#{0} - `{1}` ➤ {2}".format(x[0],x[1][0],x[1][1]) for x in bababoi]
 
         e = discord.Embed(
-            title=f"👷‍♂️ Classifica Builder",
+            title=f":medal: Classifica Builder",
             description="\n".join(first_list),
             color=discord.Color.yellow()
             )
 
-        e.set_footer(text=f"Page {(menu.current_page) + 1}/{(self._max_pages)} · Top 10 Builer BTE Italia ")
+        e.set_footer(text=f"Page {(menu.current_page) + 1}/{(self._max_pages)} · 👷‍♂️ {total_data:,} Costruttori")
         return e
 
 
@@ -162,7 +162,7 @@ class Info(commands.Cog):
     )
     async def minecraft_leaderboard(self, ctx, page=1):
         
-        r = requests.get("https://bteitalia.tk:2083/points", verify=False)
+        r = requests.get("https://bteitalia.tk:2083/points", verify=True)
         data = r.json()
         lb_data = data['Leaderboard']
         sorted_lb_data = sorted(lb_data, key=lambda d: d['score'],  reverse=True)
