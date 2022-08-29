@@ -252,7 +252,69 @@ class Random(commands.Cog):
         with open('/home/container/utils/mc.png', "rb") as fh:
             f = discord.File(fh, filename='/home/container/utils/mc.png')
         await ctx.send(file=f)
-            
+
+    @commands.command(
+        name='testa',
+        description='Will send provided users head.',
+        usage='£testa (User)',
+        brief='Gather users head',
+        aliases=["head"]
+    )
+    async def testa(self,ctx,user):
+        url = "https://api.mojang.com/users/profiles/minecraft/" + user
+        response = requests.get(url)
+        result = json.loads(response.text)
+        uuid = result['id']
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0'
+        }
+        uuid = uuid.strip()
+        url = "https://crafatar.com/renders/head/" + uuid + "?size=512&default=MHF_Steve&overlay=true.png"
+
+        response = requests.get(url,headers=headers,stream=True)
+        response.raw.decode_content = True
+        if response.status_code == 200:
+            with open("/home/container/utils/head.png", 'wb') as f:
+                shutil.copyfileobj(BytesIO(response.content), f)
+        else:
+            print('Image Couldn\'t be retrieved :(')
+        with open('/home/container/utils/head.png', "rb") as fh:
+            f = discord.File(fh, filename='/home/container/utils/head.png')
+        await ctx.send(file=f)
+
+    @commands.command(
+        name='faccia',
+        description='Will send provided users avatar.',
+        usage='£faccia (User)',
+        brief='Gather users avatar',
+        aliases=["face"]
+    )
+    async def faccia(self,ctx,user):
+        url = "https://api.mojang.com/users/profiles/minecraft/" + user
+        response = requests.get(url)
+        result = json.loads(response.text)
+        uuid = result['id']
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0'
+        }
+        uuid = uuid.strip()
+        url = "https://crafatar.com/avatars/" + uuid + "?size=512&default=MHF_Steve&overlay=true.png"
+
+        response = requests.get(url,headers=headers,stream=True)
+        response.raw.decode_content = True
+        if response.status_code == 200:
+            with open("/home/container/utils/faccia.png", 'wb') as f:
+                shutil.copyfileobj(BytesIO(response.content), f)
+        else:
+            print('Image Couldn\'t be retrieved :(')
+        with open('/home/container/utils/faccia.png', "rb") as fh:
+            f = discord.File(fh, filename='/home/container/utils/faccia.png')
+        await ctx.send(file=f)
+
+    @faccia.error
+    @testa.error         
     @skin.error
     async def handler(self, ctx, error):
         if isinstance(error, commands.BadArgument) or isinstance(error, commands.MissingRequiredArgument):
