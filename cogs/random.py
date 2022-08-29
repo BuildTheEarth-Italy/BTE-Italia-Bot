@@ -254,6 +254,13 @@ class Random(commands.Cog):
         await ctx.send(file=f)
             
     @skin.error
+    async def handler(self, ctx, error):
+        if isinstance(error, commands.BadArgument) or isinstance(error, commands.MissingRequiredArgument):
+            embed=discord.Embed(description=':x: Per favore inserisci un nome Minecraft valido.', color=discord.Color.red())
+            await ctx.channel.send(embed=embed)
+        else:
+            print(error)    
+            
     @meteo.error
     async def handler(self, ctx, error):
         if isinstance(error, commands.BadArgument) or isinstance(error, commands.MissingRequiredArgument):
