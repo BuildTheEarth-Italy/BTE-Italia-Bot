@@ -4,6 +4,7 @@ from discord import ui
 from discord.ext import menus
 import requests
 import math
+import asyncio
 
 
 class MyMenuPages(ui.View, menus.MenuPages):
@@ -161,7 +162,7 @@ class Info(commands.Cog):
     )
     async def minecraft_leaderboard(self, ctx, page=1):
         
-        r = requests.get("https://62.171.174.31:2083/points", verify=False)
+        r = requests.get("https://bteitalia.tk:2083/points", verify=False)
         data = r.json()
         lb_data = data['Leaderboard']
         sorted_lb_data = sorted(lb_data, key=lambda d: d['score'],  reverse=True)
