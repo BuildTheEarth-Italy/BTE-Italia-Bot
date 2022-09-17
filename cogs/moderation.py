@@ -86,7 +86,7 @@ class MySource(menus.ListPageSource):
         return e
 
 
-class Moderation(commands.Cog):
+class Moderation(commands.Cog, description='Moderating tools.'):
     def __init__(self, bot):
         self.bot = bot
 
@@ -94,7 +94,7 @@ class Moderation(commands.Cog):
     @commands.command(
         name='clear',
         description='Deletes a specified amount of messages.',
-        usage='£clear (1-100)',
+        usage="[amount]",
         brief='Clears messages'
     )
     @commands.has_permissions(manage_messages=True)
@@ -123,7 +123,7 @@ class Moderation(commands.Cog):
     @commands.command(
         name='banlist',
         description='Gives a list of banned users.',
-        usage='£banlist',
+        usage="[page]",
         brief='Gives ban list'
     )
     @commands.has_permissions(ban_members=True)
@@ -138,7 +138,7 @@ class Moderation(commands.Cog):
     @commands.command(
         name='ban',
         description='Bans a user from the server.',
-        usage='£ban (User) (Reason)',
+        usage="[member] [reason]",
         brief='Bans a user'
     )
     @commands.has_permissions(ban_members=True)
@@ -165,7 +165,7 @@ class Moderation(commands.Cog):
     @commands.command(
         name='unban',
         description='Unbans a user from the server.',
-        usage='£unban (User)',
+        usage="[member]",
         brief='Unbans a user'
     )
     @commands.has_permissions(ban_members=True)
@@ -212,7 +212,7 @@ class Moderation(commands.Cog):
     @commands.command(
         name='kick',
         description='Kicks a user from the server.',
-        usage='£kick (User) (Reason)',
+        usage="[member] [reason]",
         brief='Kicks a user'
     )
     @commands.has_permissions(kick_members=True)
@@ -238,12 +238,12 @@ class Moderation(commands.Cog):
     @commands.command(
         name='setnickname',
         description='Sets a users nickname.',
-        usage='£setnickname (User) (Nickname)',
         brief='Change users nickname',
+        usage="[member] [name]",
         aliases=["setnick"]
     )
     @commands.bot_has_permissions(manage_nicknames = True)
-    async def setnickname(self, ctx, member = None, *name):
+    async def setnickname(self, ctx, member = None, *, name):
         if member == None:
             member = ctx.author
         
@@ -262,8 +262,8 @@ class Moderation(commands.Cog):
     @commands.command(
         name='avatar',
         description='Grabs a users profile picture.',
-        usage='£avatar (User)',
         brief='Grabs profile picture',
+        usage="[member]",
         aliases=["pfp", "av"]
     )
     async def avatar(self, ctx, *, member: discord.Member = None):

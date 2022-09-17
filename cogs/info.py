@@ -105,14 +105,13 @@ class MySource(menus.ListPageSource):
 
 
 
-class Info(commands.Cog):
+class Info(commands.Cog, description='Commands that give you information.'):
     def __init__(self, bot):
         self.bot = bot
     
     @commands.command(
         name='progressi',
         description='Will send link to BTE Italias progress map.',
-        usage='£progressi',
         brief='BTE Italia progress map',
         aliases=["progress", "map", "mappa"]
     )
@@ -126,7 +125,6 @@ class Info(commands.Cog):
     @commands.command(
         name='staff',
         description='Will send a list of all BTE Italias staff member.',
-        usage='£progressi',
         brief='BTE Italia staff member list',
         aliases=["stafflist", "mods", "moderatori", "supporto", "modlist", "lista mod", "lista moderatori", "tecnici", "lista staff", "list", "staffs", "staffer", "staffers"]
     )
@@ -145,7 +143,6 @@ class Info(commands.Cog):
     @commands.command(
         name='ip',
         description='Will send the ip to the BTE Italia Minecraft server.',
-        usage='£ip',
         brief='BTE Italia Minecraft server IP',
         aliases=["adress", "inzirizzo", "server", "ipmc", "ipserver"]
     )
@@ -158,6 +155,9 @@ class Info(commands.Cog):
 
     @commands.command(
         name='minecraft_leaderboard',
+        description='Will send a leaderboard from the minecraft server with every builder and their points.',
+        brief='Sends the builder leaderboard',
+        usage="[page]",
         aliases=['mclb', 'mc_lb']
     )
     async def minecraft_leaderboard(self, ctx, page=1):
@@ -180,11 +180,12 @@ class Info(commands.Cog):
     
     @commands.command(
         name='listserver',
-        description='List of servers the bot is present in.',
-        usage='`£listserver`',
+        description='Sends a list of all the servers the bot is present in.',
+        brief='List of servers the bot is present in.',
+        usage="[page]",
         aliases=['ls', 'serverlist', 'sl']        
     )
-    async def listserver(self, ctx, page: int = 1):
+    async def listserver(self, ctx, page = 1):
         output = ''
         guilds = self.bot.guilds
         pages = math.ceil(len(guilds)/10)
@@ -217,7 +218,6 @@ class Info(commands.Cog):
     @commands.command(
         name='serverinfo',
         description='Gives information about the server.',
-        usage='£serverinfo',
         brief='Server information',
         aliases=["infoserver"]
     )
@@ -256,8 +256,8 @@ class Info(commands.Cog):
     @commands.command(
         name='userinfo',
         description='Gives information about a user.',
-        usage='£userinfo (User)',
         brief='Information of a user',
+        usage="[member]",
         aliases=["whois", "infouser"]
     )
     async def userinfo(self, ctx, *, member = None):
@@ -332,7 +332,6 @@ class Info(commands.Cog):
     @commands.command(
         name='socials',
         description='Gives links to all BTE Italias official links.',
-        usage='£socials',
         brief='BTE Italias Socials',
         aliases=["social", "links", "link"]
     )

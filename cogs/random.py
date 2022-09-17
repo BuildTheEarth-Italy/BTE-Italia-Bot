@@ -9,7 +9,7 @@ import wikipedia
 import asyncio
 
 
-class Random(commands.Cog):
+class Random(commands.Cog, description='Random commands.'):
 
     def __init__(self, bot):
         self.bot = bot
@@ -18,7 +18,6 @@ class Random(commands.Cog):
     @commands.command(
         name='fact',
         description='Will send a random fact.',
-        usage='£fact',
         brief='Gives random fact',
         aliases=["fatto", "curiosità", "curiosita"]
     )
@@ -59,7 +58,6 @@ class Random(commands.Cog):
     @commands.command(
         name='fact_en',
         description='Will send a random fact.',
-        usage='£fact_en',
         brief='Gives random fact',
         aliases=["curiosity"]
     )
@@ -100,8 +98,8 @@ class Random(commands.Cog):
     @commands.command(
         name='eightball',
         description='Will give a random response to your provided question.',
-        usage='£8ball (Question)',
         brief='Gives random response',
+        usage="[question]",
         aliases=["8ball", "magicball", "eight ball", "8 ball", "magic ball"]
     )
     async def eightball(self, ctx, *, question):
@@ -134,8 +132,8 @@ class Random(commands.Cog):
     @commands.command(
         name='stupid',
         description='Measures how stupid someone is.',
-        usage='£stupid (User)',
         brief='Measures how stupid a user is',
+        usage="[member]",
         aliases=["stupido"]
     )
     async def stupid(self, ctx, member = None):
@@ -176,8 +174,8 @@ class Random(commands.Cog):
     @commands.command(
         name='meteo',
         description='Will send weather information of provided city.',
-        usage='£meteo (City)',
         brief='Weather information',
+        usage="[city]",
         aliases=["weather"]
     )
     async def meteo(self,ctx,*,city):
@@ -226,8 +224,8 @@ class Random(commands.Cog):
     @commands.command(
         name='skin',
         description='Will send provided users skin.',
-        usage='£skin (User)',
         brief='Gather users skin',
+        usage="[user]",
         aliases=["pelle"]
     )
     async def skin(self,ctx,user):
@@ -272,7 +270,6 @@ class Random(commands.Cog):
     @commands.command(
         name='ping',
         description='Will send bots ping.',
-        usage='£ping',
         brief='Bots ping',
         aliases=["latency"]
     )
@@ -284,7 +281,6 @@ class Random(commands.Cog):
     @commands.command(
         name='kanyequote',
         description='Will send a random Kanye West Quote.',
-        usage='£kanyequote',
         brief='Gives random Kanye quote',
         aliases=["kq", "kanye", "quote"]
     )
@@ -323,8 +319,8 @@ class Random(commands.Cog):
     @commands.command(
         name='qrcode',
         description='Will generate QR code with provided content.',
-        usage='£qrcode (Content)',
         brief='Generates QR code',
+        usage="[url]",
         aliases=["qr"]
     )
     async def qrcode(self, ctx, *, url):
@@ -352,8 +348,8 @@ class Random(commands.Cog):
     @commands.command(
         name='wikipedia',
         description='Will send wikipedia article of provided argument.',
-        usage='£wikipedia (Argument)',
         brief='Wikipedia article of argument',
+        usage="[query]",
         aliases=["wiki"]
     )
     async def wiki(self, ctx, *, query):
@@ -369,8 +365,8 @@ class Random(commands.Cog):
     @commands.command(
         name='wikisearch',
         description='Will research for arguments provided on wikipedia.',
-        usage='£wikisearch (Argument)',
         brief='Does a wiki search',
+        usage="[query]",
         aliases=["ricerca"]
     )
     async def wikisearch(self, ctx, *, query):
@@ -381,8 +377,8 @@ class Random(commands.Cog):
     @commands.command(
         name='covid',
         description='Will send a covid statistic of a provided country.',
-        usage='£covid (Country)',
         brief='Covid information on a country',
+        usage="[country]",
         aliases=["covid-19", "covid19", "coronavirus", "coronavirus19", "coronavirus-19", "corona", "virus"]
     )
     async def covid(self, ctx,*, country):
@@ -431,7 +427,6 @@ class Random(commands.Cog):
     @commands.command(
         name='chucknorris',
         description='Will send random chucknorris fact or quote.',
-        usage='£chucknorris',
         brief='Chucknorris quote or fact',
         aliases=["cn", "chuck", "norris", "chuck norris"]
     )
@@ -447,7 +442,6 @@ class Random(commands.Cog):
     @commands.command(
         name='advice',
         description='Will send random life advice.',
-        usage='£advice',
         brief='Life advice',
         aliases=["consiglio"]
     )
@@ -466,7 +460,6 @@ class Random(commands.Cog):
     @commands.command(
         name='ftopayrespect',
         description='Send F to pay respect.',
-        usage='£f',
         brief='Pay respect',
         aliases=["f", "pressf", "press f", "F"]
     )
@@ -485,7 +478,6 @@ class Random(commands.Cog):
     @commands.command(
         name='dadjoke',
         description='Sends a Dad joke.',
-        usage='£dadjoke',
         brief='Dad joke',
         aliases=["dj", "joke", "dad"]
     )
@@ -501,8 +493,8 @@ class Random(commands.Cog):
     @commands.command(
         name='flip',
         description='Will flip a coin, heads or tail.',
-        usage='£coinflip',
         brief='Flips a coin',
+        usage="[member]",
         aliases=["cf", "coinflip", "coin"]
     )
     async def flip(self, ctx, user : discord.Member=None):

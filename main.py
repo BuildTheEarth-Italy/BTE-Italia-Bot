@@ -21,7 +21,7 @@ class MyBot(commands.Bot):
         
         print('BTE Italia Bot is setup')
 
-bot = MyBot(command_prefix='&', intents=intents, activity=discord.Activity(type=discord.ActivityType.watching, name='bteitalia.tk'))
+bot = MyBot(command_prefix='£', intents=intents, activity=discord.Activity(type=discord.ActivityType.watching, name='bteitalia.tk'))
 
 
 @bot.event
@@ -37,8 +37,8 @@ async def on_connect():
 @bot.command(
     name='unload',
     description='Unloads cog from the bot.',
-    usage='£unload (Cog)',
     brief='Unload cog',
+    usage="[extension]",
     aliases=["ul"]
     )
 @commands.has_role(859467091639009350)
@@ -62,11 +62,11 @@ async def unload(ctx, extension = None):
 @bot.command(
     name='reload',
     description='Reload cog from the bot.',
-    usage='£reload (Cog)',
     brief='Reload cog',
+    usage="[extension]",
     aliases=["rl"]
     )
-#@commands.has_role(859467091639009350)
+@commands.has_role(859467091639009350)
 async def reload(ctx, extension = None):
     if extension != None:
         await bot.reload_extension(f'cogs.{extension}')
@@ -87,8 +87,8 @@ async def reload(ctx, extension = None):
 @bot.command(
     name='load',
     description='Loads cog from the bot.',
-    usage='£load (Cog)',
     brief='Load cog',
+    usage="[extension]",
     aliases=["ld"]
     )
 @commands.has_role(859467091639009350)
@@ -111,7 +111,7 @@ async def load(ctx, extension = None):
 
 @unload.error
 @load.error
-#@reload.error
+@reload.error
 async def handler(ctx, error):
     if isinstance(error, commands.MissingRole):
         embed = discord.Embed(

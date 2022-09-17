@@ -5,7 +5,7 @@ from discord.ext import commands
 import asyncio
 
 
-class Utilities(commands.Cog):
+class Utilities(commands.Cog, description='Useful commands.'):
     def __init__(self, bot):
         self.bot = bot
 
@@ -13,8 +13,8 @@ class Utilities(commands.Cog):
     @commands.command(
         name='post',
         description='Will send provided links to the #notifiche channel.',
-        usage='£post (Link/s)',
         brief='Posts link in #notifiche',
+        usage="[links]",
         aliases=["posta"]
     )
     @commands.has_role(701817511284441170)
@@ -34,8 +34,8 @@ class Utilities(commands.Cog):
     @commands.command(
         name='messaggio',
         description='Will make the bot message the content provided.',
-        usage='£messaggio (Channel) (Message)',
         brief='Messages with bot',
+        usage="[channel] [message]",
         aliases=["message", "msg"]
     )
     @commands.has_any_role(859467091639009350, 881627300142129222)
@@ -87,7 +87,7 @@ class Utilities(commands.Cog):
     @commands.command(
         name='reazione',
         description='Will react to specified messages with specified emojis.',
-        usage='£reazione (Message ID) (Reaction)',
+        usage="[message] [emoji]",
         brief='Reacts to messages',
         aliases=["react"]
     )
@@ -238,8 +238,8 @@ class Utilities(commands.Cog):
     @commands.command(
         name='valuta',
         description='Will rate a users building.',
-        usage='£valuta (Message ID) (Minecraft Username) (Points)',
         brief='Rates a users building',
+        usage="[post_id] [minecraft_name] [points]",
         aliases=["rate"]
     )
     @commands.has_role(756854255662661643)
@@ -320,7 +320,7 @@ class Utilities(commands.Cog):
     @commands.command(
         name='riunione',
         description='Will make a riunione reminder.',
-        usage='£riunione (DD/MM/YYYY HH:MM)',
+        usage="[date]",
         brief='BTE Italia Riunione'
     )
     @commands.has_role(756854255662661643)
