@@ -150,9 +150,9 @@ class Info(commands.Cog):
         personale_relazioni_pubbliche_list = [f"`{member.name}#{member.discriminator}" for member in personale_relazioni_pubbliche_members]
         message = discord.Embed(title="<:bte_italy:991738968725000433> Lista Staff BTE Italia ", colour=discord.Colour.blue())
         message.add_field(name="<:presidente:1010588696573128784> Presidente", value="\n".join(presidente_list), inline=False)
-        message.add_field(name="<:team_lead:1010588767999628800> Team Lead", value="\n".join(team_lead_list), inline=False)
-        message.add_field(name="<:personale_tecnico:1010588847739547648> Personale Tecnico", value="\n".join(personale_tecnico_list), inline=False)
-        message.add_field(name="<:mod_e_supporto:1010588900315697666> Mod e Supporto", value="\n".join(mod_supporto_list), inline=False)
+        message.add_field(name="<:teamlead:1010588694832500757> Team Lead", value="\n".join(team_lead_list), inline=False)
+        message.add_field(name="<:tecnico:1010588693423194233> Personale Tecnico", value="\n".join(personale_tecnico_list), inline=False)
+        message.add_field(name="<:modesupporto:1010588684875202680> Mod e Supporto", value="\n".join(mod_supporto_list), inline=False)
         message.add_field(name="<:valutazioni:1010588685831524353> Valutazioni", value="\n".join(valutazioni_list), inline=False)
         message.add_field(name="<:personalerelazionipubbliche:1010588691388977153> Personale Relazioni Pubbliche", value="\n".join(personale_relazioni_pubbliche_list), inline=False)
         await ctx.send(embed=message)
