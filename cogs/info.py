@@ -147,7 +147,7 @@ class Info(commands.Cog):
         personale_tecnico_list = [f"`{member.name}#{member.discriminator}`" for member in personale_tecnico_members]
         mod_supporto_list = [f"`{member.name}#{member.discriminator}`" for member in mod_supporto_members]
         valutazioni_list = [f"`{member.name}#{member.discriminator}`" for member in valutazioni_members]
-        personale_relazioni_pubbliche_list = [f"`{member.name}#{member.discriminator}" for member in personale_relazioni_pubbliche_members]
+        personale_relazioni_pubbliche_list = [f"`{member.name}#{member.discriminator}`" for member in personale_relazioni_pubbliche_members]
         message = discord.Embed(title="<:bte_italy:991738968725000433> Lista Staff BTE Italia ", colour=discord.Colour.blue())
         message.add_field(name="<:presidente:1010588696573128784> Presidente", value="\n".join(presidente_list), inline=False)
         message.add_field(name="<:teamlead:1010588694832500757> Team Lead", value="\n".join(team_lead_list), inline=False)
