@@ -121,26 +121,41 @@ class Info(commands.Cog):
                 description=":map: **Ecco la mappa progressi!**\nhttps://maphub.net/BTEItalia/bte-italia-progressi", color=discord.Color.blue())
             await ctx.send(embed=embed)     
 
-
-
     @commands.command(
         name='staff',
         description='Will send a list of all BTE Italias staff member.',
-        usage='£progressi',
+        usage='£staff',
         brief='BTE Italia staff member list',
         aliases=["stafflist", "mods", "moderatori", "supporto", "modlist", "lista mod", "lista moderatori", "tecnici", "lista staff", "list", "staffs", "staffer", "staffers"]
     )
-    async def staff(self, ctx):         
+    async def staff(self, ctx):
+        guild = self.bot.get_guild(686910132017430538)
+        presidente_role = guild.get_role(695697978391789619)
+        team_lead_role = guild.get_role(859467091639009350)
+        personale_tecnico_role = guild.get_role(696409124102996068)
+        mod_supporto_role = guild.get_role(701176339968950272)
+        valutazioni_role = guild.get_role(756854255662661643)
+        personale_relazioni_pubbliche_role = guild.get_role(701817511284441170)
+        presidente_members = presidente_role.members
+        team_lead_members = team_lead_role.members
+        personale_tecnico_members = personale_tecnico_role.members
+        mod_supporto_members = mod_supporto_role.members
+        valutazioni_members = valutazioni_role.members
+        personale_relazioni_pubbliche_members = personale_relazioni_pubbliche_role.members
+        presidente_list = [f"`{member.name}#{member.discriminator}`" for member in presidente_members]
+        team_lead_list = [f"`{member.name}#{member.discriminator}`" for member in team_lead_members]
+        personale_tecnico_list = [f"`{member.name}#{member.discriminator}`" for member in personale_tecnico_members]
+        mod_supporto_list = [f"`{member.name}#{member.discriminator}`" for member in mod_supporto_members]
+        valutazioni_list = [f"`{member.name}#{member.discriminator}`" for member in valutazioni_members]
+        personale_relazioni_pubbliche_list = [f"`{member.name}#{member.discriminator}" for member in personale_relazioni_pubbliche_members]
         message = discord.Embed(title="<:bte_italy:991738968725000433> Lista Staff BTE Italia ", colour=discord.Colour.blue())
-        message.add_field(name="<:presidente:1010588696573128784> Presidente", value="<:magix92:1010586235535888434> `Magix92`\n<:filippo_the_king:1010586249817497753> `filippo_the_king`", inline=False)
-        message.add_field(name="<:teamlead:1010588694832500757> Team Lead", value="<:forgiobombi:1010585405889974312> `forgiobombi`\n<:Diamondpower500:1010587025205907516> `DiamondPower500`\n<:Martinsuperstar:1010590112205250580> `Martinsuperstar`\n<:MemoryOfLife:1010590510760611930> `MemoryOfLife`", inline=False)
-        message.add_field(name="<:tecnico:1010588693423194233> Tecnico", value="<:forgiobombi:1010585405889974312> `forgiobombi`\n<:MemoryOfLife:1010590510760611930> `MemoryOfLife`\n<:filippo_the_king:1010586249817497753> `filippo_the_king`\n<:ElijahPepe:1010592808836546572> `ElijahPepe`\n<:MikChan:1010592810380054658> `MikChan`\n<:celery6:1010593496526229525> `celery6`\n<:Marcy2005:1010597530884636706> `spl1ce_`", inline=False)
-        message.add_field(name="<:modesupporto:1010588684875202680> Mod e Supporto", value="<:Diamondpower500:1010587025205907516> `DiamondPower500`\n<:I_EricDraven_I:1010595264492470314> `I_EricDraven_I`\n<:FedexV2:1010595261535498330> `FedeXV2`\n<:HannibalLecter:1010595263401955459> `HannibalLecter`", inline=False)
-        message.add_field(name="<:valutazioni:1010588685831524353> Valutazioni", value="<:Martinsuperstar:1010590112205250580> `Martinsuperstar`\n<:forgiobombi:1010585405889974312> `forgiobombi`\n<:magix92:1010586235535888434> `Magix92`", inline=False)
-        message.add_field(name="<:personalerelazionipubbliche:1010588691388977153> Personale Relazioni Pubbliche", value="<:forgiobombi:1010585405889974312> `forgiobombi`\n<:I_EricDraven_I:1010595264492470314> `I_EricDraven_I`\n<:magix92:1010586235535888434> `Magix92`\n<:H2bomber_:1010603700412219523> `H2bomber_`\n<:howard9068:1010603701817331844> `howard9068`\n<:glurbB:1010603698730315787> `glurbB`", inline=False)
-        await ctx.send(embed=message)  
-        
-
+        message.add_field(name="<:presidente:1010588696573128784> Presidente", value="\n".join(presidente_list), inline=False)
+        message.add_field(name="<:team_lead:1010588767999628800> Team Lead", value="\n".join(team_lead_list), inline=False)
+        message.add_field(name="<:personale_tecnico:1010588847739547648> Personale Tecnico", value="\n".join(personale_tecnico_list), inline=False)
+        message.add_field(name="<:mod_e_supporto:1010588900315697666> Mod e Supporto", value="\n".join(mod_supporto_list), inline=False)
+        message.add_field(name="<:valutazioni:1010588685831524353> Valutazioni", value="\n".join(valutazioni_list), inline=False)
+        message.add_field(name="<:personalerelazionipubbliche:1010588691388977153> Personale Relazioni Pubbliche", value="\n".join(personale_relazioni_pubbliche_list), inline=False)
+        await ctx.send(embed=message)
 
     @commands.command(
         name='ip',
@@ -175,44 +190,7 @@ class Info(commands.Cog):
 
         formatter = MySource(ctx, lb_list, per_page=10)
         menu = MyMenuPages(formatter, page-1)
-        await menu.start(ctx)
-
-    
-    @commands.command(
-        name='listserver',
-        description='List of servers the bot is present in.',
-        usage='`£listserver`',
-        aliases=['ls', 'serverlist', 'sl']        
-    )
-    async def listserver(self, ctx, page: int = 1):
-        output = ''
-        guilds = self.bot.guilds
-        pages = math.ceil(len(guilds)/10)
-        if 1 <= page <= pages:
-            counter = 1+(page-1)*10
-            for guild in guilds[(page-1)*10:page*10]:
-                output += f'{counter}. {guild.name}\n'
-                counter += 1
-            embed = discord.Embed(
-                color=discord.Color.orange(),
-                description=output,
-                title='**LISTA SERVER**',
-                timestamp=ctx.message.created_at
-            )
-            embed.set_footer(
-                text=f'Pagina {page} su {pages}'
-            )
-            await ctx.send(
-                embed=embed
-            )
-        else:
-            await ctx.send(
-                embed=create_embed(
-                    ':x: La pagina che hai specificato non esiste'
-                ),
-                delete_after=10
-            )                
-
+        await menu.start(ctx)             
 
     @commands.command(
         name='serverinfo',
