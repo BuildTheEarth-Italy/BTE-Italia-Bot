@@ -121,7 +121,7 @@ class Info(commands.Cog):
                 description=":map: **Ecco la mappa progressi!**\nhttps://maphub.net/BTEItalia/bte-italia-progressi", color=discord.Color.blue())
             await ctx.send(embed=embed)     
 
-    @commands.command(
+    @commands.hybrid_command(
         name='staff',
         description='Will send a list of all BTE Italias staff member.',
         usage='£staff',
