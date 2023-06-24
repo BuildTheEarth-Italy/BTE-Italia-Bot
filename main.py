@@ -3,6 +3,9 @@ from discord.ext import commands
 import logging
 import os
 import typing
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 logging.basicConfig(level=logging.INFO,
@@ -161,4 +164,4 @@ async def handler(ctx, error):
         print(error)
 
 
-bot.run('token')
+bot.run(os.getenv('TOKEN'))
