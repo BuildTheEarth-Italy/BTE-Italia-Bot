@@ -2,9 +2,8 @@ import discord
 from discord.ext import commands
 import logging
 import os
-from dotenv import load_dotenv
+import typing
 
-load_dotenv()
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s %(levelname)s » %(message)s')
@@ -24,7 +23,7 @@ class MyBot(commands.Bot):
         
         print('BTE Italia Bot is setup')
 
-bot = MyBot(command_prefix='£', intents=intents, activity=discord.Activity(type=discord.ActivityType.watching, name='bteitalia.tk'))
+bot = MyBot(command_prefix='$', intents=intents, activity=discord.Activity(type=discord.ActivityType.watching, name='bteitalia.tk'))
 
 
 @bot.event
@@ -111,6 +110,40 @@ async def load(ctx, extension = None):
         await ctx.reply(embed=embed)
     
 
+## SYNC COMMAND
+
+@commands.guild_only()
+@bot.command(name='sync', help='Syncs the bots commands with Discord API.')
+async def sync(
+  ctx: commands.Context, guilds: commands.Greedy[discord.Object], spec: typing.Optional[typing.Literal["~", "*", "^"]] = None) -> None:
+    if not guilds:
+        if spec == "~":
+            synced = await ctx.bot.tree.sync(guild=ctx.guild)
+        elif spec == "*":
+            ctx.bot.tree.copy_global_to(guild=ctx.guild)
+            synced = await ctx.bot.tree.sync(guild=ctx.guild)
+        elif spec == "^":
+            ctx.bot.tree.clear_commands(guild=ctx.guild)
+            await ctx.bot.tree.sync(guild=ctx.guild)
+            synced = []
+        else:
+            synced = await ctx.bot.tree.sync()
+
+        await ctx.send(
+            f"Synced {len(synced)} commands {'globally' if spec is None else 'to the current guild.'}"
+        )
+        return
+
+    ret = 0
+    for guild in guilds:
+        try:
+            await ctx.bot.tree.sync(guild=guild)
+        except discord.HTTPException:
+            pass
+        else:
+            ret += 1
+
+    await ctx.send(f"Synced the tree to {ret}/{len(guilds)}.")
 
 @unload.error
 @load.error
@@ -128,4 +161,4 @@ async def handler(ctx, error):
         print(error)
 
 
-bot.run(os.getenv('TOKEN'))
+bot.run('token')

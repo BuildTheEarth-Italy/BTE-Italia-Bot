@@ -16,7 +16,7 @@ class Approva(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(
+    @commands.hybrid_command(
         name='approva',
         description='Approves a user from rank Newbie to rank Starter.',
         usage='£approva (User)',
@@ -80,13 +80,13 @@ class Approva(commands.Cog):
         minecraftName = ""
         for application in applicationsList:
             #      v-- Discord name + discriminator
-            if application[2] == f"{member.name}#{member.discriminator}":
+            if application[2] == f"{member.name}{'#'+member.discriminator if (member.discriminator != '0') else ''}":
                 # Minecraft In game name
                 minecraftName = application[1]
 
         if minecraftName == "":
             embed = Embed(
-                description=f"{member.name}#{member.discriminator} è stato approvato su Discord ma non su Minecraft, per favore contatta il {technical_role.mention}.", color=Color.gold())
+                description=f"{member.name}{'#'+member.discriminator if (member.discriminator != '0') else ''} è stato approvato su Discord ma non su Minecraft, per favore contatta il {technical_role.mention}.", color=Color.gold())
             await ctx.send(embed=embed)
         else:
             # Send lp command to the console channel
@@ -96,7 +96,7 @@ class Approva(commands.Cog):
             await console_channel.send(f"lp user {minecraftName} group add starter")
 
             embed = Embed(
-                description=f"Approvato {member.name}#{member.discriminator}!", color=Color.green())
+                description=f"Approvato {member.name}{'#'+member.discriminator if (member.discriminator != '0') else ''}!", color=Color.green())
             await ctx.send(embed=embed)
 
     @approva.error

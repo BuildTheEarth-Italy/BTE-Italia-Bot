@@ -82,7 +82,7 @@ class MySource(menus.ListPageSource):
         for name, value in entries:
             e.add_field(name=name, value=value, inline=False)
 
-        e.set_footer(text=f"{total} · Only {self.ctx.author.name}#{self.ctx.author.discriminator} can control this list!", icon_url=self.ctx.author.avatar.url)
+        e.set_footer(text=f"{total} · Only {self.ctx.author.name}{'#'+self.ctx.author.discriminator if (self.ctx.author.discriminator != '0') else ''} can control this list!", icon_url=self.ctx.author.avatar.url)
         return e
 
 
@@ -91,7 +91,7 @@ class Moderation(commands.Cog):
         self.bot = bot
 
 
-    @commands.command(
+    @commands.hybrid_command(
         name='clear',
         description='Deletes a specified amount of messages.',
         usage='£clear (1-100)',
@@ -120,7 +120,7 @@ class Moderation(commands.Cog):
             print(error)
     
 
-    @commands.command(
+    @commands.hybrid_command(
         name='banlist',
         description='Gives a list of banned users.',
         usage='£banlist',
@@ -135,7 +135,7 @@ class Moderation(commands.Cog):
         await menu.start(ctx)
 
 
-    @commands.command(
+    @commands.hybrid_command(
         name='ban',
         description='Bans a user from the server.',
         usage='£ban (User) (Reason)',
@@ -162,7 +162,7 @@ class Moderation(commands.Cog):
             await ctx.send(embed=embed)
 
             
-    @commands.command(
+    @commands.hybrid_command(
         name='unban',
         description='Unbans a user from the server.',
         usage='£unban (User)',
@@ -181,7 +181,7 @@ class Moderation(commands.Cog):
             for ban_entry in bans:
                 user = ban_entry.user
 
-                if f"{user.name}#{user.discriminator}" == member:
+                if f"{user.name}{'#'+self.ctx.author.discriminator if (ctx.author.discriminator != '0') else ''}" == member:
                     await ctx.guild.unban(user)
                     
                     embed = discord.Embed(
@@ -209,7 +209,7 @@ class Moderation(commands.Cog):
             )
             await ctx.send(embed=embed)
 
-    @commands.command(
+    @commands.hybrid_command(
         name='kick',
         description='Kicks a user from the server.',
         usage='£kick (User) (Reason)',
@@ -235,7 +235,7 @@ class Moderation(commands.Cog):
      
             
 
-    @commands.command(
+    @commands.hybrid_command(
         name='setnickname',
         description='Sets a users nickname.',
         usage='£setnickname (User) (Nickname)',
@@ -243,7 +243,7 @@ class Moderation(commands.Cog):
         aliases=["setnick"]
     )
     @commands.bot_has_permissions(manage_nicknames = True)
-    async def setnickname(self, ctx, member = None, *name):
+    async def setnickname(self, ctx, member = None, *, name):
         if member == None:
             member = ctx.author
         
@@ -259,7 +259,7 @@ class Moderation(commands.Cog):
             msg = f'Resettato il nickname di `{member}` a: **{member.name}**'
         await ctx.send(msg)
             
-    @commands.command(
+    @commands.hybrid_command(
         name='avatar',
         description='Grabs a users profile picture.',
         usage='£avatar (User)',
@@ -267,7 +267,8 @@ class Moderation(commands.Cog):
         aliases=["pfp", "av"]
     )
     async def avatar(self, ctx, *, member: discord.Member = None):
-        if not member:member=ctx.message.author
+        if not member:
+            member=ctx.message.author
 
         message = discord.Embed(title=str(member), color=discord.Colour.orange())
         message.set_image(url=member.avatar.url)

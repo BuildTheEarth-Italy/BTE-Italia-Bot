@@ -109,7 +109,7 @@ class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    @commands.command(
+    @commands.hybrid_command(
         name='progressi',
         description='Will send link to BTE Italias progress map.',
         usage='£progressi',
@@ -140,11 +140,11 @@ class Info(commands.Cog):
         mod_supporto_members = mod_supporto_role.members
         valutazioni_members = valutazioni_role.members
         personale_relazioni_pubbliche_members = personale_relazioni_pubbliche_role.members
-        presidente_list = [f"`{member.name}#{member.discriminator}`" for member in presidente_members]
-        personale_tecnico_list = [f"`{member.name}#{member.discriminator}`" for member in personale_tecnico_members]
-        mod_supporto_list = [f"`{member.name}#{member.discriminator}`" for member in mod_supporto_members]
-        valutazioni_list = [f"`{member.name}#{member.discriminator}`" for member in valutazioni_members]
-        personale_relazioni_pubbliche_list = [f"`{member.name}#{member.discriminator}`" for member in personale_relazioni_pubbliche_members]
+        presidente_list = [f"`{member.name}{'#'+member.discriminator if (member.discriminator != '0') else ''}`" for member in presidente_members]
+        personale_tecnico_list = [f"`{member.name}{'#'+member.discriminator if (member.discriminator != '0') else ''}`" for member in personale_tecnico_members]
+        mod_supporto_list = [f"`{member.name}{'#'+member.discriminator if (member.discriminator != '0') else ''}`" for member in mod_supporto_members]
+        valutazioni_list = [f"`{member.name}{'#'+member.discriminator if (member.discriminator != '0') else ''}`" for member in valutazioni_members]
+        personale_relazioni_pubbliche_list = [f"`{member.name}{'#'+member.discriminator if (member.discriminator != '0') else ''}`" for member in personale_relazioni_pubbliche_members]
         message = discord.Embed(title="<:bte_italy:991738968725000433> Lista Staff BTE Italia ", colour=discord.Colour.blue())
         message.add_field(name="<:presidente:1010588696573128784> Presidente", value="\n".join(presidente_list), inline=False)
         message.add_field(name="<:tecnico:1010588693423194233> Personale Tecnico", value="\n".join(personale_tecnico_list), inline=False)
@@ -153,7 +153,7 @@ class Info(commands.Cog):
         message.add_field(name="<:personalerelazionipubbliche:1010588691388977153> Personale Relazioni Pubbliche", value="\n".join(personale_relazioni_pubbliche_list), inline=False)
         await ctx.send(embed=message)
 
-    @commands.command(
+    @commands.hybrid_command(
         name='ip',
         description='Will send the ip to the BTE Italia Minecraft server.',
         usage='£ip',
@@ -166,29 +166,7 @@ class Info(commands.Cog):
             await ctx.send(embed=embed)     
 
 
-
-    @commands.command(
-        name='minecraft_leaderboard',
-        aliases=['mclb', 'mc_lb']
-    )
-    async def minecraft_leaderboard(self, ctx, page=1):
-        
-        r = requests.get("https://bteitalia.tk:2083/points", verify=True)
-        data = r.json()
-        lb_data = data['Leaderboard']
-        sorted_lb_data = sorted(lb_data, key=lambda d: d['score'],  reverse=True)
-        
-        lb_list=[]
-        for x in sorted_lb_data:
-            values = list(x.values())
-            lb_list.append(values)
-
-
-        formatter = MySource(ctx, lb_list, per_page=10)
-        menu = MyMenuPages(formatter, page-1)
-        await menu.start(ctx)             
-
-    @commands.command(
+    @commands.hybrid_command(
         name='serverinfo',
         description='Gives information about the server.',
         usage='£serverinfo',
@@ -227,7 +205,7 @@ class Info(commands.Cog):
 
 
 
-    @commands.command(
+    @commands.hybrid_command(
         name='userinfo',
         description='Gives information about a user.',
         usage='£userinfo (User)',
@@ -303,7 +281,7 @@ class Info(commands.Cog):
 
 
 
-    @commands.command(
+    @commands.hybrid_command(
         name='socials',
         description='Gives links to all BTE Italias official links.',
         usage='£socials',

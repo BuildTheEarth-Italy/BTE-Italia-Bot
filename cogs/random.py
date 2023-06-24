@@ -15,7 +15,7 @@ class Random(commands.Cog):
         self.bot = bot
                        
         
-    @commands.command(
+    @commands.hybrid_command(
         name='fact',
         description='Will send a random fact.',
         usage='£fact',
@@ -56,7 +56,7 @@ class Random(commands.Cog):
         message.add_field(name=":face_with_monocle: Curiosità:", value=random.choice(facts), inline=True)
         await ctx.send(embed=message)        
         
-    @commands.command(
+    @commands.hybrid_command(
         name='fact_en',
         description='Will send a random fact.',
         usage='£fact_en',
@@ -97,7 +97,7 @@ class Random(commands.Cog):
         message.add_field(name=":face_with_monocle: Curiosity:", value=random.choice(facts), inline=True)
         await ctx.send(embed=message)        
         
-    @commands.command(
+    @commands.hybrid_command(
         name='eightball',
         description='Will give a random response to your provided question.',
         usage='£8ball (Question)',
@@ -131,7 +131,7 @@ class Random(commands.Cog):
         message.add_field(name=":pencil: Risposta:", value=random.choice(responses), inline=False)
         await ctx.send(embed=message)        
         
-    @commands.command(
+    @commands.hybrid_command(
         name='stupid',
         description='Measures how stupid someone is.',
         usage='£stupid (User)',
@@ -173,7 +173,7 @@ class Random(commands.Cog):
                 await message.edit(content=f"{member.mention} è {percentage}% stupido!")
                 
                 
-    @commands.command(
+    @commands.hybrid_command(
         name='meteo',
         description='Will send weather information of provided city.',
         usage='£meteo (City)',
@@ -223,7 +223,7 @@ class Random(commands.Cog):
             embed.add_field(name="Errore", value="Per favore metti il nome di una città", inline=True)
             await ctx.send(embed=embed)       
             
-    @commands.command(
+    @commands.hybrid_command(
         name='skin',
         description='Will send provided users skin.',
         usage='£skin (User)',
@@ -253,7 +253,7 @@ class Random(commands.Cog):
             f = discord.File(fh, filename='/home/container/utils/mc.png')
         await ctx.send(file=f)
 
-    @commands.command(
+    @commands.hybrid_command(
         name='testa',
         description='Will send provided users head.',
         usage='£testa (User)',
@@ -283,7 +283,7 @@ class Random(commands.Cog):
             f = discord.File(fh, filename='/home/container/utils/head.png')
         await ctx.send(file=f)
 
-    @commands.command(
+    @commands.hybrid_command(
         name='faccia',
         description='Will send provided users avatar.',
         usage='£faccia (User)',
@@ -331,7 +331,7 @@ class Random(commands.Cog):
         else:
             print(error)              
             
-    @commands.command(
+    @commands.hybrid_command(
         name='ping',
         description='Will send bots ping.',
         usage='£ping',
@@ -343,7 +343,7 @@ class Random(commands.Cog):
         await ctx.send(f':signal_strength: **Ping Attuale**: {round(self.bot.latency * 1000)} ms')                    
 
 
-    @commands.command(
+    @commands.hybrid_command(
         name='kanyequote',
         description='Will send a random Kanye West Quote.',
         usage='£kanyequote',
@@ -382,7 +382,7 @@ class Random(commands.Cog):
 
 
 
-    @commands.command(
+    @commands.hybrid_command(
         name='qrcode',
         description='Will generate QR code with provided content.',
         usage='£qrcode (Content)',
@@ -411,7 +411,7 @@ class Random(commands.Cog):
         else:
             print(error)         
     
-    @commands.command(
+    @commands.hybrid_command(
         name='wikipedia',
         description='Will send wikipedia article of provided argument.',
         usage='£wikipedia (Argument)',
@@ -428,7 +428,7 @@ class Random(commands.Cog):
 
 
 
-    @commands.command(
+    @commands.hybrid_command(
         name='wikisearch',
         description='Will research for arguments provided on wikipedia.',
         usage='£wikisearch (Argument)',
@@ -440,7 +440,7 @@ class Random(commands.Cog):
 
 
 
-    @commands.command(
+    @commands.hybrid_command(
         name='covid',
         description='Will send a covid statistic of a provided country.',
         usage='£covid (Country)',
@@ -490,7 +490,7 @@ class Random(commands.Cog):
 
 
 
-    @commands.command(
+    @commands.hybrid_command(
         name='chucknorris',
         description='Will send random chucknorris fact or quote.',
         usage='£chucknorris',
@@ -506,7 +506,7 @@ class Random(commands.Cog):
 
 
 
-    @commands.command(
+    @commands.hybrid_command(
         name='advice',
         description='Will send random life advice.',
         usage='£advice',
@@ -525,7 +525,7 @@ class Random(commands.Cog):
 
 
        
-    @commands.command(
+    @commands.hybrid_command(
         name='ftopayrespect',
         description='Send F to pay respect.',
         usage='£f',
@@ -544,7 +544,7 @@ class Random(commands.Cog):
 
 
 
-    @commands.command(
+    @commands.hybrid_command(
         name='dadjoke',
         description='Sends a Dad joke.',
         usage='£dadjoke',
@@ -560,7 +560,7 @@ class Random(commands.Cog):
 
 
 
-    @commands.command(
+    @commands.hybrid_command(
         name='flip',
         description='Will flip a coin, heads or tail.',
         usage='£coinflip',

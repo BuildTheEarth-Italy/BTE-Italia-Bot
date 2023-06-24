@@ -10,7 +10,7 @@ class Utilities(commands.Cog):
         self.bot = bot
 
         
-    @commands.command(
+    @commands.hybrid_command(
         name='post',
         description='Will send provided links to the #notifiche channel.',
         usage='£post (Link/s)',
@@ -31,7 +31,7 @@ class Utilities(commands.Cog):
                               color=discord.Color.green())
         await ctx.send(embed=embed)
 
-    @commands.command(
+    @commands.hybrid_command(
         name='messaggio',
         description='Will make the bot message the content provided.',
         usage='£messaggio (Channel) (Message)',
@@ -84,7 +84,7 @@ class Utilities(commands.Cog):
             await ctx.send(embed=embed)
 
 
-    @commands.command(
+    @commands.hybrid_command(
         name='reazione',
         description='Will react to specified messages with specified emojis.',
         usage='£reazione (Message ID) (Reaction)',
@@ -154,7 +154,7 @@ class Utilities(commands.Cog):
                 description='Devi indicare un messaggio.', color=discord.Color.red())
             await ctx.send(embed=embed)
 
-    @commands.command(name='oldApprova')
+    @commands.hybrid_command(name='oldapprova')
     @commands.has_any_role(704338128692838533, 881627300142129222)
     async def approva(self, ctx, member=None):
         approva_channel = ctx.guild.get_channel(891675282992431154)
@@ -195,13 +195,13 @@ class Utilities(commands.Cog):
                         minecraftName = ""
                         for application in applicationsList:
                             #      v-- Discord name + discriminator
-                            if application[2] == f"{member.name}#{member.discriminator}":
+                            if application[2] == f"{member.name}{'#'+member.discriminator if (member.discriminator != '0') else ''}":
                                 # Minecraft In game name
                                 minecraftName = application[1]
 
                         if minecraftName == "":
                             embed = discord.Embed(
-                                description=f"{member.name}#{member.discriminator} è stato approvato su Discord ma non su Minecraft, per favore contatta il <@&696409124102996068>.", color=discord.Color.gold())
+                                description=f"{member.name}{'#'+member.discriminator if (member.discriminator != '0') else ''} è stato approvato su Discord ma non su Minecraft, per favore contatta il <@&696409124102996068>.", color=discord.Color.gold())
                             await ctx.send(embed=embed)
                         else:
                             # Send lp command to the console channel
@@ -211,7 +211,7 @@ class Utilities(commands.Cog):
                             await console_channel.send(f"lp user {minecraftName} group add starter")
 
                             embed = discord.Embed(
-                                description=f"Approvato {member.name}#{member.discriminator}!", color=discord.Color.green())
+                                description=f"Approvato {member.name}{'#'+member.discriminator if (member.discriminator != '0') else ''}!", color=discord.Color.green())
                             await ctx.send(embed=embed)
 
                     else:
@@ -235,7 +235,7 @@ class Utilities(commands.Cog):
 		
             
             
-    @commands.command(
+    @commands.hybrid_command(
         name='valuta',
         description='Will rate a users building.',
         usage='£valuta (Message ID) (Minecraft Username) (Points)',
@@ -317,7 +317,7 @@ class Utilities(commands.Cog):
         await channel.send(message)
 
 
-    @commands.command(
+    @commands.hybrid_command(
         name='riunione',
         description='Will make a riunione reminder.',
         usage='£riunione (DD/MM/YYYY HH:MM)',
