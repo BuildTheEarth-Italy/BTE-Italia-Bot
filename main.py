@@ -26,7 +26,7 @@ class MyBot(commands.Bot):
         
         print('BTE Italia Bot is setup')
 
-bot = MyBot(command_prefix='$', intents=intents, activity=discord.Activity(type=discord.ActivityType.watching, name='bteitalia.tk'))
+bot = MyBot(command_prefix='£', intents=intents, activity=discord.Activity(type=discord.ActivityType.watching, name='bteitalia.tk'))
 
 
 @bot.event
