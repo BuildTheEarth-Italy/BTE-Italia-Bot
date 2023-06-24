@@ -26,7 +26,7 @@ bot = MyBot(command_prefix='£', intents=intents, activity=discord.Activity(type
 
 @bot.event
 async def on_ready():
-    print("BTE Italia Bot is ready")
+    print("Bot is ready")
 
 @bot.event
 async def on_connect():
