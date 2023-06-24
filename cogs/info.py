@@ -131,26 +131,22 @@ class Info(commands.Cog):
     async def staff(self, ctx):
         guild = self.bot.get_guild(686910132017430538)
         presidente_role = guild.get_role(695697978391789619)
-        team_lead_role = guild.get_role(859467091639009350)
         personale_tecnico_role = guild.get_role(696409124102996068)
         mod_supporto_role = guild.get_role(701176339968950272)
         valutazioni_role = guild.get_role(756854255662661643)
         personale_relazioni_pubbliche_role = guild.get_role(701817511284441170)
         presidente_members = presidente_role.members
-        team_lead_members = team_lead_role.members
         personale_tecnico_members = personale_tecnico_role.members
         mod_supporto_members = mod_supporto_role.members
         valutazioni_members = valutazioni_role.members
         personale_relazioni_pubbliche_members = personale_relazioni_pubbliche_role.members
         presidente_list = [f"`{member.name}#{member.discriminator}`" for member in presidente_members]
-        team_lead_list = [f"`{member.name}#{member.discriminator}`" for member in team_lead_members]
         personale_tecnico_list = [f"`{member.name}#{member.discriminator}`" for member in personale_tecnico_members]
         mod_supporto_list = [f"`{member.name}#{member.discriminator}`" for member in mod_supporto_members]
         valutazioni_list = [f"`{member.name}#{member.discriminator}`" for member in valutazioni_members]
         personale_relazioni_pubbliche_list = [f"`{member.name}#{member.discriminator}`" for member in personale_relazioni_pubbliche_members]
         message = discord.Embed(title="<:bte_italy:991738968725000433> Lista Staff BTE Italia ", colour=discord.Colour.blue())
         message.add_field(name="<:presidente:1010588696573128784> Presidente", value="\n".join(presidente_list), inline=False)
-        message.add_field(name="<:teamlead:1010588694832500757> Team Lead", value="\n".join(team_lead_list), inline=False)
         message.add_field(name="<:tecnico:1010588693423194233> Personale Tecnico", value="\n".join(personale_tecnico_list), inline=False)
         message.add_field(name="<:modesupporto:1010588684875202680> Mod e Supporto", value="\n".join(mod_supporto_list), inline=False)
         message.add_field(name="<:valutazioni:1010588685831524353> Valutazioni", value="\n".join(valutazioni_list), inline=False)
