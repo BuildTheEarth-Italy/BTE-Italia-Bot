@@ -17,7 +17,7 @@ class Utilities(commands.Cog):
         brief='Posts link in #notifiche',
         aliases=["posta"]
     )
-    @commands.has_role(701817511284441170)
+    @commands.has_role(696409124102996068)
     async def post(self, ctx, *, links: str):
         link_list = links.split()
         message = '🇮🇹 Nuovo Post!\n🇺🇸 New Post!'
@@ -38,7 +38,7 @@ class Utilities(commands.Cog):
         brief='Messages with bot',
         aliases=["message", "msg"]
     )
-    @commands.has_any_role(859467091639009350, 881627300142129222)
+    @commands.has_any_role(696409124102996068, 881627300142129222)
     async def messaggio(self, ctx, channel=None, *, message=None):
         converter = commands.TextChannelConverter()
 
@@ -91,7 +91,7 @@ class Utilities(commands.Cog):
         brief='Reacts to messages',
         aliases=["react"]
     )
-    @commands.has_any_role(859467091639009350, 881627300142129222)
+    @commands.has_any_role(696409124102996068, 881627300142129222)
     async def reazione(self, ctx, message=None, reaction=None):
         if message != None:
 
@@ -323,7 +323,7 @@ class Utilities(commands.Cog):
         usage='£riunione (DD/MM/YYYY HH:MM)',
         brief='BTE Italia Riunione'
     )
-    @commands.has_role(756854255662661643)
+    @commands.has_role(696409124102996068)
     async def riunione(self, ctx, *, date=None):
         if date != None:
             try:
