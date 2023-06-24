@@ -44,7 +44,7 @@ async def on_connect():
     brief='Unload cog',
     aliases=["ul"]
     )
-@commands.has_role(859467091639009350)
+@commands.has_role(696409124102996068)
 async def unload(ctx, extension = None):
     if extension != None:
         await bot.unload_extension(f'cogs.{extension}')
@@ -69,7 +69,7 @@ async def unload(ctx, extension = None):
     brief='Reload cog',
     aliases=["rl"]
     )
-#@commands.has_role(859467091639009350)
+#@commands.has_role(696409124102996068)
 async def reload(ctx, extension = None):
     if extension != None:
         await bot.reload_extension(f'cogs.{extension}')
@@ -94,7 +94,7 @@ async def reload(ctx, extension = None):
     brief='Load cog',
     aliases=["ld"]
     )
-@commands.has_role(859467091639009350)
+@commands.has_role(696409124102996068)
 async def load(ctx, extension = None):
     if extension != None:
         await bot.load_extension(f'cogs.{extension}')
