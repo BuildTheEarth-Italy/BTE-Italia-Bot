@@ -8,3 +8,4 @@ PyNaCl
 wikipedia
 qrcode
 discord-ext-menus
+python-dotenv
