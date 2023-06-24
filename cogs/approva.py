@@ -23,7 +23,7 @@ class Approva(commands.Cog):
         brief='Approve a user',
         aliases=["approve"]
     )
-    @commands.has_role(704338128692838533)
+    @commands.has_role(756854255662661643)
     async def approva(self, ctx, member=None):
         approva_channel = ctx.guild.get_channel(891675282992431154)
         starter_role = ctx.guild.get_role(704332197628477450)
