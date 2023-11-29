@@ -6,6 +6,10 @@ from discord import ui
 from discord.ext import commands
 from discord.ext import menus
 import time
+from io import BytesIO
+import PIL
+
+
 
 class MyMenuPages(ui.View, menus.MenuPages):
     def __init__(self, source, page):
@@ -232,7 +236,6 @@ class Moderation(commands.Cog):
             )
             await ctx.send(embed=embed)
 
-     
             
 
     @commands.hybrid_command(
@@ -259,6 +262,7 @@ class Moderation(commands.Cog):
             msg = f'Resettato il nickname di `{member}` a: **{member.name}**'
         await ctx.send(msg)
             
+
     @commands.hybrid_command(
         name='avatar',
         description='Grabs a users profile picture.',
@@ -273,7 +277,41 @@ class Moderation(commands.Cog):
         message = discord.Embed(title=str(member), color=discord.Colour.orange())
         message.set_image(url=member.avatar.url)
 
-        await ctx.send(embed=message)              
+        await ctx.send(embed=message)  
+
+    @commands.guild_only()
+    @commands.hybrid_command(
+        name='access',
+        description='Shows who have access to the channel it is used in.',
+        brief='Returns who can see a channel.',
+        usage="[channel]",
+    )
+    async def access(self, ctx, *, channel: discord.TextChannel = None):
+
+        if channel == None:
+            channel = ctx.channel
+        else:
+            converter = commands.GuildChannelConverter()
+            channel = await converter.convert(ctx, channel)
+        members = channel.members
+        
+        if len(members) > 25:
+            return
+
+        embed = discord.Embed(title="🔐 Access", description=f"👆 A text file is attached above with every user with access to  `{channel.name}` 👆", color=discord.Colour.blue())
+        
+        buffer = BytesIO()
+        members_string = ""
+        for member in members:
+            roles = []
+            for role in member.roles: 
+                roles.append(role.name)
+            
+            members_string += f"NAME: {member.name}, ID: {member.id}, ROLES: {', '.join(roles) }\n"
+
+        buffer = BytesIO(members_string.encode("utf8"))
+
+        await ctx.reply(embed=embed, file=discord.File(buffer, "members.txt"))
 
 
     @setnickname.error
