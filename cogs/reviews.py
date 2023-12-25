@@ -52,7 +52,7 @@ class Reviews(commands.Cog):
                     return
 
                 # run command in #console
-                await console_channel.send(f'lp user {ign} group add Newbie')
+                await console_channel.send(f'lp user {ign} group add Novizio')
 
                 # check if user is in the discord server
                 if guild in member.mutual_guilds and len(member.roles) != 1:
@@ -66,7 +66,7 @@ class Reviews(commands.Cog):
 
                     # check if member has international role or italiano role
                     if italiano_role in member.roles:
-                        notification_message = f"Congratulazioni, {member.mention}!\nSei stato accettato come _Newbie_ a _{city}_."
+                        notification_message = f"Congratulazioni, {member.mention}!\nSei stato accettato come _Novizio_ a _{city}_."
 
                     elif international_role in member.roles:
                         notification_message = f"Congratulations, {member.mention}!\nYou've been accepted as a _Newbie_ in _{city}_."
