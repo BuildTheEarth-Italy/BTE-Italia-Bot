@@ -11,3 +11,4 @@ discord-ext-menus
 python-dotenv
 javascript
 nodejs
+node
