@@ -93,7 +93,7 @@ class Approva(commands.Cog):
             console_channel = ctx.guild.get_channel(
                 778281056284442664)
 
-            await console_channel.send(f"lp user {minecraftName} group add starter")
+            await console_channel.send(f"lp user {minecraftName} group add principiante")
 
             embed = Embed(
                 description=f"Approvato {member.name}{'#'+member.discriminator if (member.discriminator != '0') else ''}!", color=Color.green())
