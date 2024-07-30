@@ -165,7 +165,7 @@ class Reviews(commands.Cog):
         console_channel = ctx.guild.get_channel(778281056284442664)
 
         # run command in #console
-        await console_channel.send(f'lp user {minecraft_name} group add Newbie')
+        await console_channel.send(f'lp user {minecraft_name} group add Novizio')
 
         # check if member has international role or italiano role
         if italiano_role in member.roles:
